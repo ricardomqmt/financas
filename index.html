@@ -63,6 +63,7 @@ td{border-top:1px solid var(--line);padding:1px 2px}
 tr:hover td{background:var(--hover)}
 td input,td select{width:100%;box-sizing:border-box;border:1px solid transparent;background:transparent;padding:5px 6px}
 td input:focus,td select:focus{border-color:var(--focus);background:var(--field)}
+td.dt{position:relative;white-space:nowrap}td.dt input[data-f=data]{width:calc(100% - 26px)}td.dt .cal{border:0;background:transparent;cursor:pointer;padding:0 2px;font-size:13px;opacity:.7}td.dt .cal:hover{opacity:1}td.dt .dp{position:absolute;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none;padding:0;border:0}
 td.n input{text-align:right}
 td.x{width:34px;text-align:center}
 .del{background:none;border:0;color:var(--bad);cursor:pointer;font-size:16px}
@@ -372,7 +373,7 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
     <label class="full">Quantidade de meses / parcelas (1 = lançamento único; 12 = projeção de um ano)<input type="number" id="nQtd" min="1" max="120" step="1" value="12"></label>
   </div>
   <div class="prev" id="nPrev"></div>
-  <div class="actions"><button class="btn" id="nCancel">Cancelar</button><button class="btn pri" id="nSalvar">Criar lançamentos</button></div>
+  <div class="actions"><button class="btn" id="nLimpar" title="Volta o formulário ao estado inicial">Limpar</button><button class="btn" id="nCancel">Cancelar</button><button class="btn pri" id="nSalvar">Criar lançamentos</button></div>
 </dialog>
 <dialog id="dlgGoogle">
   <h3>Google Sheets</h3>
@@ -454,7 +455,7 @@ function continuacao(tipo,cat,desc,forma){ // mês seguinte ao último lançado 
   let [y,mm]=m.split('-').map(Number);mm++;if(mm>12){mm=1;y++;}
   return {mes:y+'-'+String(mm).padStart(2,'0'),dia:dias.size===1?String(Number([...dias][0])):'ultimo'};
 }
-function novoId(){const n=DB.lanc.reduce((a,r)=>Math.max(a,Number(r.id.slice(1))),0)+1;return 'L'+String(n).padStart(4,'0');}
+function novoId(){const n=DB.lanc.reduce((a,r)=>Math.max(a,Number(r.id.slice(1))),0)+1;return 'L'+String(n).padStart(6,'0');}
 
 /* ---- filtros multi-seleção (compartilhados por todas as abas); null = todos, Set = selecionados ---- */
 const KS=['meses','tipo','categoria','descricao','visao','forma','semaforo'];
@@ -494,7 +495,7 @@ function padraoD(){ // Dashboards: Anual, últimos 5 anos com dados
 function filtradas(ignorar){
   const hoje=hojeISO(),ig=k=>[].concat(ignorar||[]).includes(k);
   return DB.lanc.filter(r=>passa('tipo',r.tipo)&&(ig('categoria')||passa('categoria',r.categoria))&&(ig('descricao')||passa('descricao',r.descricao))&&passa('forma',r.forma)&&(ig('meses')||passa('meses',r.data.slice(0,7)))&&(ig('sel')||!F.sel||r.data.startsWith(F.sel))&&(F.semaforo===null||passa('semaforo',semaforo(r,hoje))))
-    .sort((a,b)=>a.data<b.data?-1:a.data>b.data?1:a.id<b.id?-1:1);
+    .sort((a,b)=>a.data<b.data?-1:a.data>b.data?1:Number(a.id.slice(1))-Number(b.id.slice(1)));
 }
 const alvoLote=()=>filtradas().filter(r=>r.real===null);
 const opts=(arr,sel)=>arr.map(v=>`<option${v===sel?' selected':''}>${esc(v)}</option>`).join('');
@@ -607,7 +608,7 @@ const SEMA_TIT={Verde:'No prazo',Amarelo:'Vence hoje',Vermelho:'Vencido'};
 const semHtml=r=>{const c=semaforo(r);return c?`<span class="sem sem-${c}" title="${SEMA_TIT[c]}">●</span>`:'';};
 function renderTabela(){
   $('#tbody').innerHTML=filtradas().map(r=>`<tr data-id="${r.id}">
-    <td><input type="date" data-f="data" value="${r.data}"></td>
+    <td class="dt"><input type="text" inputmode="numeric" maxlength="10" placeholder="dd/mm/aaaa" autocomplete="off" data-f="data" value="${dataBR(r.data)}"><button type="button" class="cal" tabindex="-1" title="Abrir calendário" data-cal>📅</button><input type="date" class="dp" tabindex="-1" aria-hidden="true" value="${r.data}"></td>
     <td><select data-f="tipo">${opts(['Receita','Despesa'],r.tipo)}</select></td>
     <td><select data-f="categoria">${opts(listaCats(r.tipo),r.categoria)}</select></td>
     <td><select data-f="descricao">${opts(listaDesc(r.tipo,r.categoria),r.descricao)}</select></td>
@@ -688,12 +689,34 @@ $('#tbody').addEventListener('focusout',e=>{
   el.value=fmtN(r[f]);
   if(f==='real'){const tr=el.closest('tr');tr.querySelector('[data-pago]').disabled=r.real!==null;tr.querySelector('.semc').innerHTML=semHtml(r);}
 });
-$('#tbody').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('money'))e.target.blur();});
+$('#tbody').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&(e.target.classList.contains('money')||e.target.dataset.f==='data'))e.target.blur();
+  else if(e.key==='Escape'&&e.target.dataset.f==='data'){e.target.value=dataBR(reg(e.target).data);e.target.blur();}
+});
+$('#tbody').addEventListener('input',e=>{ // máscara dd/mm/aaaa: só números, barras automáticas, digitação contínua
+  const el=e.target;if(el.dataset.f!=='data')return;
+  const d=el.value.replace(/\D/g,'').slice(0,8);
+  el.value=d.length>4?d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4):d.length>2?d.slice(0,2)+'/'+d.slice(2):d;
+});
+const dataBR=d=>d.slice(8)+'/'+d.slice(5,7)+'/'+d.slice(0,4);
+const diaValido=v=>{const [y,m,d]=v.split('-').map(Number),t=new Date(Date.UTC(y,m-1,d));return t.getUTCMonth()===m-1&&t.getUTCDate()===d;};
+function gravaData(el,iso){ // confirma ao sair do campo; ignora datas incompletas ou inexistentes
+  const r=reg(el);let v=iso;
+  if(!v){const m=el.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(m)v=m[3]+'-'+m[2]+'-'+m[1];}
+  if(!(v&&/^(19|20|21)\d\d-\d\d-\d\d$/.test(v)&&diaValido(v))){
+    if(el.value!==dataBR(r.data))toast('Data inválida: use dia/mês/ano, ex.: 26/01/2026');
+    el.value=dataBR(r.data);return;
+  }
+  if(v===r.data){el.value=dataBR(v);return;}
+  r.data=v;persist();renderFiltros();renderTotais();renderLote();renderTabela();
+}
+$('#tbody').addEventListener('focusout',e=>{if(e.target.dataset.f==='data')gravaData(e.target);});
 $('#tbody').addEventListener('change',e=>{
-  const el=e.target,f=el.dataset.f;if(!f||el.classList.contains('money'))return;
+  const el=e.target;
+  if(el.classList.contains('dp')){if(el.value)gravaData(el.closest('td').querySelector('[data-f=data]'),el.value);return;}
+  const f=el.dataset.f;if(!f||f==='data'||el.classList.contains('money'))return;
   const r=reg(el);
-  if(f==='data'){if(!el.value){el.value=r.data;return;}r.data=el.value;}
-  else if(f==='tipo'){ // tipo → primeira categoria e descrição do novo tipo
+  if(f==='tipo'){ // tipo → primeira categoria e descrição do novo tipo
     r.tipo=el.value;r.categoria=listaCats(r.tipo)[0]||'';r.descricao=listaDesc(r.tipo,r.categoria)[0]||'';toast(`Categoria e descrição ajustadas: ${r.categoria} › ${r.descricao}`);
   }else if(f==='categoria'){
     r.categoria=el.value;r.descricao=listaDesc(r.tipo,r.categoria)[0]||'';toast('Descrição ajustada para '+r.descricao);
@@ -702,6 +725,7 @@ $('#tbody').addEventListener('change',e=>{
   if(['data','tipo','categoria'].includes(f))renderTabela();
 });
 $('#tbody').addEventListener('click',async e=>{
+  if(e.target.matches('[data-cal]')){const dp=e.target.closest('td').querySelector('.dp');try{dp.showPicker();}catch(x){dp.focus();}return;}
   if(e.target.matches('[data-pago]')){
     const r=reg(e.target);if(r.real!==null)return;
     r.real=r.orcado;persist();renderTabela();renderLote();return;
@@ -806,9 +830,11 @@ function descNovo(){
   $('#nDesc').innerHTML=opts(listaDesc($('#nTipo').value,$('#nCat').value),'');
   sugerirMes();
 }
-function sugerirMes(){
+function sugerirMes(){ // trocou a combinação: mês e dia voltam ao padrão (ou à sequência do histórico), sem herdar datas de outra série
+  manual.mes=manual.dia=false;
   const c=continuacao($('#nTipo').value,$('#nCat').value,$('#nDesc').value,$('#nForma').value);
   if(c){if(!manual.mes)$('#nMes').value=c.mes;if(!manual.dia)$('#nDia').value=c.dia;}
+  else{if(!manual.mes){const h=new Date();$('#nMes').value=h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0');}if(!manual.dia)$('#nDia').value='1';} // sem lançamento anterior: mês atual e dia 1
   sugerirValor();
   prevNovo();
 }
@@ -859,6 +885,7 @@ function prevNovo(){
 }
 $('#btnNovo').onclick=()=>{prepararNovo();$('#dlgNovo').showModal();};
 $('#nCancel').onclick=()=>$('#dlgNovo').close();
+$('#nLimpar').onclick=prepararNovo;
 $('#nTipo').onchange=catNovo;
 $('#nCat').onchange=descNovo;
 ['#nDesc','#nForma'].forEach(s=>$(s).onchange=sugerirMes);
@@ -1073,12 +1100,12 @@ function g3(W,a){ // Despesas por categoria; clicar numa categoria abre as descr
   rows.forEach(r=>{(mp.get(r[k])||mp.set(r[k],[]).get(r[k])).push(r);});
   const it=[...mp].map(([n,l])=>({n,...grp(l),orcPago:sum(l.filter(r=>r.real!==null),r=>r.orcado)})).sort((x,y)=>y.proj-x.proj).slice(0,12);
   if(!it.length)return vazio();
-  const L=132,R=70,T=6,B=26,rh=40,bh=11,H=T+B+it.length*rh,sc=escala(0,Math.max(...it.map(o=>Math.max(o.orc,o.proj)))),x=v=>L+v/sc.hi*(W-L-R);
+  const maxN=Math.min(44,Math.max(...it.map(o=>o.n.length))),L=Math.min(330,Math.max(132,Math.round(maxN*6.8)+22)),R=70,T=6,B=26,rh=40,bh=11,H=T+B+it.length*rh,sc=escala(0,Math.max(...it.map(o=>Math.max(o.orc,o.proj)))),x=v=>L+v/sc.hi*(W-L-R);
   const grade=sc.t.map(v=>`<line class="glg" x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H-B}"/><text class="ax" x="${x(v)}" y="${H-8}" text-anchor="middle">${fmtK(v)}</text>`).join('');
   let linhas='',hit='';
   it.forEach((o,i)=>{
     const y0=T+i*rh,yO=y0+7,yE=yO+bh+3,dim=F[k]===null||F[k].has(o.n)?'':'dim',vr=o.real-o.orcPago;
-    const nome=o.n.length>20?o.n.slice(0,19)+'…':o.n;
+    const nome=o.n.length>44?o.n.slice(0,43)+'…':o.n;
     linhas+=`<g class="${dim}"><text class="axl" x="${L-8}" y="${y0+rh/2+4}" text-anchor="end">${esc(nome)}</text>`
       +`<path ${cls('glw',i,a,'x')} d="${bph(L,yO,x(o.orc)-L,bh,5)}" fill="url(#g3o)"/>`
       +`<path ${cls('glw',i,a,'x')} d="${bph(L,yE,x(o.real)-L,bh,o.pend>0.005?0:5)}" fill="url(#g3r)"/>`
@@ -1275,7 +1302,8 @@ const NV=(()=>{
     const v=rs.length?await api('/values:batchGet?valueRenderOption=UNFORMATTED_VALUE&'+rs.map(r=>'ranges='+encodeURIComponent(r)).join('&')):{valueRanges:[]};
     const by={};rs.forEach((r,i)=>by[r.split('!')[0]]=v.valueRanges[i].values||[]);
     const m=by.Meta||[];
-    const out={abas,rev:Number((m[0]||[])[1])||0,temLanc:!!aba(abas,'Lançamentos'),by};
+    const txt=JSON.stringify([by['Lançamentos'],by.Cadastros,by.Formas]);let h=5381;for(let i=0;i<txt.length;i++)h=((h<<5)+h+txt.charCodeAt(i))|0;
+    const out={abas,rev:Number((m[0]||[])[1])||0,temLanc:!!aba(abas,'Lançamentos'),by,sig:String(h)};
     return out;
   }
   function montar(by){ // linhas da planilha -> DB (sem gravar)
@@ -1290,7 +1318,7 @@ const NV=(()=>{
     });
     lanc.forEach(r=>{if(r.id&&!ids.has(r.id))ids.add(r.id);else r.id='';});
     let n=[...ids].reduce((a,x)=>Math.max(a,Number(x.slice(1))||0),0);
-    lanc.forEach(r=>{if(!r.id){r.id='L'+String(++n).padStart(4,'0');semId++;}});
+    lanc.forEach(r=>{if(!r.id){r.id='L'+String(++n).padStart(6,'0');semId++;}});
     const cad=(by.Cadastros||[]).slice(1).filter(r=>r[0]&&r[1]&&r[2]).map(r=>({tipo:norm(r[0])==='receita'?'Receita':'Despesa',categoria:String(r[1]).trim(),descricao:String(r[2]).trim()}));
     lanc.forEach(r=>{if(!cad.some(c=>c.tipo===r.tipo&&c.categoria===r.categoria&&c.descricao===r.descricao))cad.push({tipo:r.tipo,categoria:r.categoria,descricao:r.descricao});});
     const formas=(by.Formas||[]).slice(1).map(r=>String(r[0]||'').trim()).filter(Boolean);
@@ -1306,7 +1334,7 @@ const NV=(()=>{
     await garanteAbas(info);
     await api('/values:batchClear',{method:'POST',body:JSON.stringify({ranges:['Lançamentos!A2:H','Cadastros!A2:C','Formas!A2:A']})});
     await api('/values:batchUpdate',{method:'POST',body:JSON.stringify({valueInputOption:'RAW',data})});
-    est.rev=rev;est.sujo=false;est.ultima=new Date().toISOString();salvaEst();
+    est.rev=rev;est.sujo=false;est.ultima=new Date().toISOString();est.sig=(await ler_()).sig;salvaEst();
   }
   async function garanteAbas(info){
     const falta=['Lançamentos','Cadastros','Formas','Meta'].filter(n=>!aba(info.abas,n));
@@ -1336,18 +1364,18 @@ const NV=(()=>{
       if(primeira){
         busy=false;
         if(!await confirmar('Carregar da planilha',`A planilha tem <b>${dados.lanc.length}</b> lançamento(s). Os dados guardados neste navegador (inclusive os fictícios) serão <b>substituídos</b> pelos da planilha.`,'Carregar'))return aviso('Conexão cancelada.');
-        busy=true;aplicar(dados);est={rev:info.rev,sujo:semId>0,ultima:new Date().toISOString(),cfg:cfg.sid};salvaEst();
+        busy=true;aplicar(dados);est={rev:info.rev,sig:info.sig,sujo:semId>0,ultima:new Date().toISOString(),cfg:cfg.sid};salvaEst();
         if(semId>0||info.rev===0)await empurrar(info);
         aviso(`Carregado: ${dados.lanc.length} lançamento(s)${ign?` · ${ign} linha(s) ignorada(s) por dados incompletos`:''}${semId?` · ${semId} ID(s) criado(s)`:''}`);
       }else if(!est.sujo){
-        if(info.rev!==est.rev){aplicar(dados);est.rev=info.rev;est.ultima=new Date().toISOString();salvaEst();if(semId>0){est.sujo=true;await empurrar(info);}if(manual)toast('Atualizado com a planilha');}
+        if(info.rev!==est.rev||info.sig!==est.sig){aplicar(dados);est.rev=info.rev;est.sig=info.sig;est.ultima=new Date().toISOString();salvaEst();if(semId>0){est.sujo=true;await empurrar(info);}if(manual)toast('Atualizado com a planilha');}
         else{est.ultima=new Date().toISOString();salvaEst();if(manual)toast('Já está sincronizado');}
-      }else if(info.rev===est.rev){await empurrar(info);if(manual)toast('Alterações enviadas');}
+      }else if(info.rev===est.rev&&info.sig===est.sig){await empurrar(info);if(manual)toast('Alterações enviadas');}
       else{
         busy=false;
         const usarPlanilha=await confirmar('Conflito de alterações','A planilha foi alterada em outro dispositivo e este também tem alterações ainda não enviadas.<br><br><b>Confirmar</b> = usar a planilha (descarta as alterações deste dispositivo).<br><b>Cancelar</b> = manter este dispositivo para decidir depois.','Usar a planilha');
         busy=true;
-        if(usarPlanilha){aplicar(dados);est.rev=info.rev;est.sujo=false;est.ultima=new Date().toISOString();salvaEst();toast('Atualizado com a planilha');}
+        if(usarPlanilha){aplicar(dados);est.rev=info.rev;est.sig=info.sig;est.sujo=false;est.ultima=new Date().toISOString();salvaEst();toast('Atualizado com a planilha');}
         else{busy=false;msg='Conflito pendente: clique em "Sincronizar agora".';status();return;}
       }
       msg='';
