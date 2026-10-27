@@ -53,11 +53,11 @@ label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:3
 select,input{background:var(--field);color:var(--text);border:1px solid var(--line);border-radius:5px;padding:5px 7px;font:inherit}
 select:focus,input:focus{outline:none;border-color:var(--focus);box-shadow:var(--glow)}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
-.row.lote{flex-wrap:nowrap;align-items:center}.row.lote>*{white-space:nowrap}#loteInfo{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.row.lote{flex-wrap:wrap;align-items:center}.row.lote>*{white-space:nowrap}#loteInfo{overflow:hidden;text-overflow:ellipsis;min-width:0}
 .muted{color:var(--muted)}
 .tw{overflow:auto;max-height:calc(100vh - 330px);border:1px solid var(--line);border-radius:8px;background:var(--card);box-shadow:var(--card-shadow)}
 table{border-collapse:collapse;width:100%}
-th{position:sticky;top:0;background:var(--th-bg);color:var(--th-fg);text-align:left;padding:7px 8px;z-index:1;border-bottom:2px solid var(--th-line)}
+th{position:sticky;top:0;background:var(--th-bg);color:var(--th-fg);text-align:left;padding:7px 8px;z-index:1;border-bottom:0;box-shadow:inset 0 -2px 0 var(--th-line)}
 html[data-theme="dark"] th{text-transform:uppercase;letter-spacing:.05em;font-size:12px}
 td{border-top:1px solid var(--line);padding:1px 2px}
 tr:hover td{background:var(--hover)}
@@ -315,7 +315,7 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
       <button class="btn" id="btnLoteAplicar">Aplicar às linhas filtradas</button>
       <button class="btn" id="btnLoteZerar">Zerar orçado</button>
       <button class="btn" id="btnLoteMedia" title="Média móvel: cada mês sem Real recebe a média dos 3 meses anteriores (Real, ou o orçado já calculado)">Sugerir pela média</button>
-      <button class="btn" id="btnExport" title="Baixa em Excel (.xlsx) as linhas filtradas desta tela">Exportar para Excel</button>
+      <button class="btn" id="btnExport" title="Exportar para Excel (.xlsx): baixa as linhas filtradas desta tela">Exportar</button>
     </div>
   </div>
   <div class="tw" id="tw"><table>
@@ -814,24 +814,31 @@ $('#btnExport').onclick=exportarExcel;
 
 /* ---- novo lançamento ---- */
 let manual={mes:false,dia:false,val:false};
-function prepararNovo(){
+let branco=false; // true = formulário zerado (botão Limpar): nada pré-selecionado
+function prepararNovo(vazio){
+  branco=vazio===true;
   $('#nDia').innerHTML=Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')+'<option value="ultimo">Último dia do mês</option>';
-  $('#nVal').value='';$('#nQtd').value=12;$('#nDia').value='1';
-  const h=new Date();$('#nMes').value=h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0');manual={mes:false,dia:false,val:false};
-  $('#nForma').innerHTML=opts(DB.formas,DB.formas.includes('Cartão de Crédito')?'Cartão de Crédito':DB.formas[0]);
-  $('#nTipo').value='Despesa';catNovo();
+  if(branco)$('#nDia').insertAdjacentHTML('afterbegin','<option value=""></option>');
+  $('#nVal').value='';$('#nQtd').value=12;$('#nDia').value=branco?'':'1';
+  const h=new Date();$('#nMes').value=branco?'':h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0');manual={mes:false,dia:false,val:false};
+  $('#nForma').innerHTML=(branco?'<option value=""></option>':'')+opts(DB.formas,branco?'':DB.formas.includes('Cartão de Crédito')?'Cartão de Crédito':DB.formas[0]);
+  $('#nTipo').innerHTML=(branco?'<option value=""></option>':'')+'<option>Despesa</option><option>Receita</option>';
+  $('#nTipo').value=branco?'':'Despesa';catNovo();
 }
 function catNovo(){
-  $('#nCat').innerHTML=opts(listaCats($('#nTipo').value),'');
-  $('#nForma').innerHTML=opts(DB.formas,$('#nForma').value||DB.formas[0]);
+  $('#nCat').innerHTML=(branco?'<option value=""></option>':'')+opts(listaCats($('#nTipo').value),'');
+  if(!branco)$('#nForma').innerHTML=opts(DB.formas,$('#nForma').value||DB.formas[0]);
   descNovo();
 }
 function descNovo(){
-  $('#nDesc').innerHTML=opts(listaDesc($('#nTipo').value,$('#nCat').value),'');
+  $('#nDesc').innerHTML=(branco?'<option value=""></option>':'')+opts(listaDesc($('#nTipo').value,$('#nCat').value),'');
   sugerirMes();
 }
 function sugerirMes(){ // trocou a combinação: mês e dia voltam ao padrão (ou à sequência do histórico), sem herdar datas de outra série
   manual.mes=manual.dia=false;
+  if(branco&&!['#nTipo','#nCat','#nDesc','#nForma'].every(i=>$(i).value)){ // faltam campos: nada é sugerido ainda
+    $('#nMes').value='';$('#nDia').value=branco?'':$('#nDia').value;if(!manual.val)$('#nVal').value='';prevNovo();return;
+  }
   const c=continuacao($('#nTipo').value,$('#nCat').value,$('#nDesc').value,$('#nForma').value);
   if(c){if(!manual.mes)$('#nMes').value=c.mes;if(!manual.dia)$('#nDia').value=c.dia;}
   else{if(!manual.mes){const h=new Date();$('#nMes').value=h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0');}if(!manual.dia)$('#nDia').value='1';} // sem lançamento anterior: mês atual e dia 1
@@ -852,6 +859,7 @@ function mediaMovel(tipo,cat,desc,forma,ano,mes,n){ // média móvel: cada mês 
   return {vals,base};
 }
 function sugerirValor(){ // com o valor em branco/sugerido, cada mês criado recebe a média móvel dos 3 meses anteriores
+  if(!['#nTipo','#nCat','#nDesc','#nForma'].every(i=>$(i).value)){$('#nSug').textContent='Escolha tipo, categoria, descrição e forma para ver as sugestões.';return;}
   const [a,mm]=($('#nMes').value||'').split('-').map(Number),q=Number($('#nQtd').value);
   const s=mediaMovel($('#nTipo').value,$('#nCat').value,$('#nDesc').value,$('#nForma').value,a,mm,Number.isInteger(q)&&q>=1&&q<=120?q:1),el=$('#nSug');
   if(!s){el.textContent='Sem histórico anterior ao mês inicial para sugerir um valor.';if(!manual.val)$('#nVal').value='';return;}
@@ -868,8 +876,11 @@ function lerNovo(){
   const [a,m]=($('#nMes').value||'').split('-').map(Number);p.ano=a;p.mes=m;
   if(!manual.val){const s=mediaMovel(p.tipo,p.categoria,p.descricao,p.forma,a,m,p.n);if(s&&s.vals.length===p.n)p.valores=s.vals;}
   let erro='';
-  if(!p.categoria)erro='Cadastre uma categoria deste tipo na aba Cadastros.';
-  else if(!p.descricao)erro='Cadastre uma descrição para esta categoria na aba Cadastros.';
+  if(!p.tipo)erro='Escolha o tipo.';
+  else if(!p.categoria)erro=branco?'Escolha a categoria.':'Cadastre uma categoria deste tipo na aba Cadastros.';
+  else if(!p.descricao)erro=branco?'Escolha a descrição.':'Cadastre uma descrição para esta categoria na aba Cadastros.';
+  else if(!p.forma)erro='Escolha a forma.';
+  else if(!p.dia)erro='Escolha o dia do mês.';
   else if(v===null||isNaN(v)||v<0)erro='Informe o valor (zero ou maior).';
   else if(!a||!m)erro='Informe o mês inicial.';
   else if(!Number.isInteger(p.n)||p.n<1||p.n>120)erro='A quantidade deve ser um número inteiro de 1 a 120.';
@@ -885,7 +896,7 @@ function prevNovo(){
 }
 $('#btnNovo').onclick=()=>{prepararNovo();$('#dlgNovo').showModal();};
 $('#nCancel').onclick=()=>$('#dlgNovo').close();
-$('#nLimpar').onclick=prepararNovo;
+$('#nLimpar').onclick=()=>prepararNovo(true);
 $('#nTipo').onchange=catNovo;
 $('#nCat').onchange=descNovo;
 ['#nDesc','#nForma'].forEach(s=>$(s).onchange=sugerirMes);
