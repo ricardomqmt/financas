@@ -6,12 +6,12 @@
 <title>Finanças Pessoais</title>
 <script>(function(){var t=null;try{t=localStorage.getItem('fin_tema');}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;})();</script>
 <style>
-:root{--bg:#c9d0da;--card:#dce1e9;--text:#17212e;--muted:#4a586b;--line:#b2bbc8;--accent:#1F3A5F;--accent-t:#fff;--bad:#b42828;--good:#137244;--hover:#cdd5e0;--field:#e8ecf2;--gap:#bec6d2;
+:root{--bg:#b9c1cd;--card:#cdd3dd;--text:#17212e;--muted:#4a586b;--line:#a3adbc;--accent:#1F3A5F;--accent-t:#fff;--bad:#b42828;--good:#137244;--hover:#c0c8d4;--field:#d8dde6;--gap:#b0b9c6;
 --head:linear-gradient(90deg,#172e4d,#244a74);--head-shadow:0 1px 0 rgba(255,255,255,.10),0 6px 20px rgba(20,35,60,.28);--tab-on:#fff;--tab-bg:linear-gradient(135deg,#5b8bd6,#2f64b0);--tab-glow:0 2px 10px rgba(47,100,176,.45);--th-bg:linear-gradient(180deg,#27486f,#1b3354);--th-fg:#fff;--th-line:#4f86d6;--glow:none;--card-shadow:0 1px 2px rgba(25,40,65,.10),0 10px 24px -14px rgba(25,40,65,.40);
---c-orc:#7f98bf;--c-real:#1F3A5F;--c-pend:rgba(31,58,95,.32);--c-line:#c27a00;--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(70,115,190,.18),transparent 60%),linear-gradient(180deg,#d0d6e0,#c3cad6);--btn-pri:var(--accent);--btn-pri-line:var(--accent);--focus:#2f64b0;--kpi-lab:var(--muted);color-scheme:light}
+--c-orc:#7f98bf;--c-real:#1F3A5F;--c-line:#c27a00;--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(70,115,190,.18),transparent 60%),linear-gradient(180deg,#c4cbd7,#b3bbc8);--btn-pri:var(--accent);--btn-pri-line:var(--accent);--focus:#2f64b0;--kpi-lab:var(--muted);color-scheme:light}
 html[data-theme="dark"]{--bg:#1d1e2c;--card:#252738;--text:#dadef0;--muted:#a0a6c8;--line:#3a3d58;--accent:#8b5cf6;--accent-t:#fff;--bad:#ff7b96;--good:#52e0a0;--hover:#2e3150;--field:#1a1b28;--gap:#1a1b28;
---head:linear-gradient(90deg,#2e2752,#203753);--head-shadow:0 1px 0 rgba(86,214,236,.55),0 5px 18px rgba(86,214,236,.10);--tab-on:#56d6ec;--tab-bg:linear-gradient(135deg,rgba(139,92,246,.75),rgba(56,189,248,.55));--tab-glow:0 0 14px rgba(86,214,236,.35);--th-bg:#2c2f49;--th-fg:#7fe3f5;--th-line:#8b5cf6;--glow:0 0 8px rgba(86,214,236,.35);--card-shadow:0 0 0 1px rgba(139,92,246,.10);
---c-orc:#a78bfa;--c-real:#56d6ec;--c-pend:rgba(86,214,236,.30);--c-line:#f6c76b;--kpi-lab:#56d6ec;
+--head:linear-gradient(90deg,#2e2752,#203753);--head-shadow:0 1px 0 rgba(86,214,236,.55),0 5px 18px rgba(86,214,236,.10);--tab-on:#56d6ec;--tab-bg:linear-gradient(135deg,rgba(139,92,246,.75),rgba(56,189,248,.55));--tab-glow:0 0 14px rgba(86,214,236,.35);--th-bg:#2c2f49;--th-fg:#fff;--th-line:rgba(255,255,255,.55);--glow:0 0 8px rgba(86,214,236,.35);--card-shadow:0 0 0 1px rgba(139,92,246,.10);
+--c-orc:#a78bfa;--c-real:#56d6ec;--c-line:#f6c76b;--kpi-lab:#fff;
 --bodybg:radial-gradient(800px 480px at 90% -10%,rgba(139,92,246,.15),transparent 60%),radial-gradient(700px 420px at -5% 10%,rgba(86,214,236,.07),transparent 60%),#1d1e2c;
 --btn-pri:linear-gradient(135deg,#8b5cf6,#6366f1);--btn-pri-line:#a78bfa;--focus:#56d6ec;color-scheme:dark}
 html{height:100%}
@@ -112,10 +112,8 @@ dialog h3{margin:0 0 10px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--card-shadow)}
 .kpi-label{font-size:12px;font-weight:bold;color:var(--kpi-lab);text-transform:uppercase;letter-spacing:.05em}
 .kpi-value{font-size:22px;font-weight:bold;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.kpi-label,.kpi-value{text-align:center}
 .kpi-line{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
-.chip{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:bold;background:var(--hover);color:var(--muted)}
-.chip.good{color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
-.chip.bad{color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
 .sem{font-size:18px;line-height:1}
 .sem-Verde{color:var(--good)}
 .sem-Amarelo{color:var(--c-line)}
@@ -125,15 +123,10 @@ dialog h3{margin:0 0 10px}
 .pv tr.z{--rb:color-mix(in srgb,var(--hover) 60%,var(--card))}
 .pv tr:hover{--rb:var(--hover)}
 .pv td{background:var(--rb);padding:3px 8px;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap;border-top:1px solid var(--line)}
-.pv tr.b1 td{border-top:8px solid var(--gap)}
-.pv tbody tr:first-child.b1 td{border-top:0}
 .pv td.n{text-align:right;min-width:118px}
-.pv .chip{margin:0}
-.pv tr.v td{color:var(--muted)}
 .pv th.m{text-align:right;min-width:118px}
 .pv .st{position:sticky;z-index:2;overflow:hidden;text-overflow:ellipsis}
 .pv th.st{z-index:4}
-.pv td.vis{font-weight:bold}
 .nota{font-size:12px;color:var(--muted);margin:10px 2px}
 .insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
 .ins{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:var(--card-shadow)}
@@ -148,6 +141,7 @@ dialog h3{margin:0 0 10px}
 .ins li small{display:block;color:var(--muted)}
 .ins .v{text-align:right;white-space:nowrap}
 .ins .v.bad{color:var(--bad);font-weight:bold}
+.ins .v.good{color:var(--good);font-weight:bold}
 @media (max-width:900px){.cad{grid-template-columns:1fr}}
 #nSug{display:flex;align-items:center;gap:8px;margin:-4px 0 0}
 #nSug .btn{padding:2px 10px;font-size:12px}
@@ -182,8 +176,8 @@ html[data-theme="dark"] .glw{filter:drop-shadow(0 0 5px rgba(120,160,255,.45))}
 html[data-theme="dark"] #tip{border-color:var(--focus);box-shadow:0 0 14px rgba(86,214,236,.25)}
 
 /* ===== refino visual v2 (apenas aparência) ===== */
-:root{--vp-o:#4a6592;--logo:linear-gradient(135deg,#6ea6f2,#2f64b0)}
-html[data-theme="dark"]{--vp-o:#b9a2ff;--logo:linear-gradient(135deg,#8b5cf6,#38bdf8)}
+:root{--orc:#0b7285;--vp-o:#4a6592;--logo:linear-gradient(135deg,#6ea6f2,#2f64b0)}
+html[data-theme="dark"]{--orc:#56d6ec;--vp-o:#b9a2ff;--logo:linear-gradient(135deg,#8b5cf6,#38bdf8)}
 *{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--muted) 60%,transparent) transparent}
 /* cabeçalho */
 header{padding:9px 22px;gap:14px;backdrop-filter:blur(10px)}
@@ -221,37 +215,36 @@ select,input{border-radius:9px}
 th{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:10px 8px}
 .tw table:not(.pv) tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--hover) 38%,transparent)}
 .tw table:not(.pv) tbody tr:hover td{background:var(--hover)}
+.tw table:not(.pv) tbody tr.tp-Receita td:first-child{box-shadow:inset 4px 0 0 var(--good)}
+.tw table:not(.pv) tbody tr.tp-Despesa td:first-child{box-shadow:inset 4px 0 0 var(--bad)}
+.tw table:not(.pv) tbody tr select[data-f=tipo]{font-weight:600}
+.tw table:not(.pv) tbody tr.tp-Receita{--tone:var(--good)}.tw table:not(.pv) tbody tr.tp-Despesa{--tone:var(--bad)}
+.tw table:not(.pv) tbody tr td input,.tw table:not(.pv) tbody tr td select{color:var(--tone)}
+.tw table:not(.pv) tbody tr td option{color:var(--text);background:var(--field)}
+.tw table:not(.pv) tbody tr.orc td.oc{background:linear-gradient(180deg,color-mix(in srgb,var(--tone) 40%,transparent),color-mix(in srgb,var(--tone) 12%,transparent));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tone) 60%,transparent),inset 0 0 14px color-mix(in srgb,var(--tone) 30%,transparent)}
+.tw table:not(.pv) tbody tr.orc td.oc input,.tw table:not(.pv) tbody tr.orc td.oc select{font-weight:600}
+#tw{scroll-padding-top:44px}
 /* painel dinâmico */
 .pv td{padding:5px 8px;border-top-color:color-mix(in srgb,var(--line) 55%,transparent)}
-.pv tr.v td{padding:4px 8px;background:color-mix(in srgb,var(--rb) 88%,var(--c-orc) 12%)}
-.pv tr.lo td{color:var(--muted)}
-.pv tr.lr td{color:var(--text)}
-.pv tr.lr td.n{font-weight:700}
-.pv tr:not(.v) td:nth-child(-n+4){color:var(--muted)}
-.pv tr.b1 td:nth-child(3){color:var(--text)}
-.pv tr.b1 td:nth-child(4){color:var(--text);font-weight:600}
+.pv tr.tp-Receita{--tone:var(--good)}.pv tr.tp-Despesa{--tone:var(--bad)}
+.pv tr td{color:var(--tone)}
 .pv tr.tp-Receita td:first-child{box-shadow:inset 4px 0 0 var(--good)}
-.pv tr.tp-Despesa td:first-child{box-shadow:inset 4px 0 0 var(--vp-o)}
-.pv tr.tp-Receita.b1 td:nth-child(2){color:var(--good);font-weight:600}
-.pv tr.tp-Despesa.b1 td:nth-child(2){color:var(--vp-o);font-weight:600}
-.pv tr.v td.st:nth-child(6){font-size:11px;letter-spacing:.05em}
-.pv td.st:nth-child(6),.pv th.st:nth-child(6){border-right:1px solid color-mix(in srgb,var(--muted) 45%,transparent)}
-.vp{font-style:normal;display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:999px;line-height:1.5}
-.pv tr.lo .vp{color:var(--vp-o);background:color-mix(in srgb,var(--vp-o) 16%,transparent)}
-.pv tr.lr .vp{color:var(--c-real);background:color-mix(in srgb,var(--c-real) 16%,transparent)}
-.pv .chip{font-size:11.5px;padding:1px 9px;border:1px solid color-mix(in srgb,currentColor 22%,transparent)}
-.pv tr.hb{--rb:color-mix(in srgb,var(--focus) 9%,var(--card))}
-.pv tr.hb:hover{--rb:color-mix(in srgb,var(--focus) 19%,var(--card))}
+.pv tr.tp-Despesa td:first-child{box-shadow:inset 4px 0 0 var(--bad)}
+.pv td{font-weight:700}
+.pv td.n.o{background:linear-gradient(180deg,color-mix(in srgb,var(--tone) 40%,transparent),color-mix(in srgb,var(--tone) 12%,transparent)),var(--rb);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tone) 60%,transparent),inset 0 0 14px color-mix(in srgb,var(--tone) 30%,transparent);font-weight:600}
+html[data-theme="dark"] .pv td.n.o{text-shadow:0 0 9px color-mix(in srgb,var(--tone) 70%,transparent)}
+.lgo{padding:1px 9px;border-radius:5px;font-weight:600;color:var(--text);background:linear-gradient(90deg,color-mix(in srgb,var(--good) 40%,transparent),color-mix(in srgb,var(--bad) 40%,transparent));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--muted) 45%,transparent)}
+.pv td.st:nth-child(5),.pv th.st:nth-child(5){border-right:1px solid color-mix(in srgb,var(--muted) 45%,transparent)}
 /* kpis, gráficos e análises */
-.kpi{position:relative;padding:14px 16px;transition:transform .15s,box-shadow .15s;background:radial-gradient(120% 100% at 0 0,color-mix(in srgb,var(--ka,var(--c-real)) 14%,transparent),transparent 62%),var(--card)}
+.kpi{position:relative;padding:14px 16px;transition:transform .15s,box-shadow .15s;background:radial-gradient(130% 120% at 0 0,color-mix(in srgb,var(--ka,var(--c-real)) 42%,transparent),transparent 68%),radial-gradient(90% 80% at 100% 100%,color-mix(in srgb,var(--ka,var(--c-real)) 20%,transparent),transparent 70%),var(--card);box-shadow:0 8px 28px -12px color-mix(in srgb,var(--ka,var(--c-real)) 65%,transparent),inset 0 0 26px -6px color-mix(in srgb,var(--ka,var(--c-real)) 30%,transparent)}
 .kpi::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:14px 14px 0 0;background:var(--ka,var(--c-real))}
 .kpi:hover{transform:translateY(-2px)}
-.kpi:nth-child(1){--ka:var(--good)}.kpi:nth-child(2){--ka:var(--bad)}.kpi.kf{--ka:var(--bad)}.kpi.ki{--ka:var(--c-line)}
+.kpi:nth-child(1){--ka:var(--good)}.kpi:nth-child(2){--ka:var(--bad)}.kpi.kf{--ka:var(--bad)}.kpi.ki{--ka:var(--orc)}
 .kpis{padding-top:11px}.kpi.kf::after{content:'';position:absolute;top:-9px;left:0;right:-11px;height:7px;border-top:2px solid var(--bad)}.kpi.kf.k1::after{left:0;border-left:2px solid var(--bad);border-top-left-radius:6px}.kpi.kf.kn::after{right:0;border-right:2px solid var(--bad);border-top-right-radius:6px}.kpi.kf.k1:not(.kn)::after{left:0}
 .kpi-label::before{content:"";display:inline-block;width:8px;height:8px;border-radius:3px;background:var(--ka);margin-right:7px}
 .kpi-value{font-size:24px;letter-spacing:-.01em;margin:2px 0 4px}
 .kpi{padding:9px 14px 10px}.kpi-line{line-height:1.3}.kpi-line span{font-weight:700}
-html:not([data-theme="dark"]) .gc{background:linear-gradient(160deg,#e4e8ef,var(--card))}
+html:not([data-theme="dark"]) .gc{background:linear-gradient(160deg,#d3d9e3,var(--card))}
 .gh h3::before{content:"";display:inline-block;width:4px;height:14px;border-radius:2px;background:linear-gradient(var(--c-orc),var(--c-real));margin-right:8px;vertical-align:-2px}
 .ins{position:relative;overflow:hidden;padding:16px 18px}
 .ins::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--ia,var(--c-real))}
@@ -277,6 +270,65 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
 .navd{display:flex;align-items:center;gap:10px;height:31px;font-weight:normal;letter-spacing:0;font-size:13px;white-space:nowrap}
 .navd .btn{height:31px;padding:0 12px}
 #viewP .kpis{position:sticky;top:calc(var(--hh,56px) + 2px);margin-top:-13px;z-index:20}
+/* cabeçalho moderno */
+header{background:radial-gradient(520px 130px at 6% -30%,rgba(139,92,246,.40),transparent 70%),radial-gradient(620px 130px at 94% -30%,rgba(86,214,236,.22),transparent 70%),var(--head);border-bottom:0;padding:11px 24px}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#8b5cf6 22%,#56d6ec 78%,transparent);opacity:.85;pointer-events:none}
+.logo{width:38px;height:38px;border-radius:12px;box-shadow:0 0 0 1px rgba(255,255,255,.22),0 6px 20px rgba(110,140,255,.55),inset 0 1px 0 rgba(255,255,255,.4)}
+header h1{font-size:19px;letter-spacing:.1px}
+.badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:3px 12px 3px 10px}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;flex:none}
+nav{border-radius:999px;padding:4px;gap:3px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 18px -10px rgba(0,0,0,.5)}
+nav button{border-radius:999px;padding:8px 16px;display:inline-flex;align-items:center;gap:7px}
+nav button.on{box-shadow:var(--tab-glow),inset 0 1px 0 rgba(255,255,255,.3)}
+.hi{width:16px;height:16px;flex:none}
+header .btn{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:8px 15px;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);backdrop-filter:blur(6px)}
+header .btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4)}
+header .btn.ico{width:38px;height:38px;padding:0;justify-content:center;border-radius:50%}
+#btnLanc.on{background:var(--tab-bg);border-color:rgba(255,255,255,.35);box-shadow:var(--tab-glow),inset 0 1px 0 rgba(255,255,255,.3)}
+@media(max-width:1599px){header .btn .hi,nav .hi{display:none}header .btn,nav button{gap:0}}
+@media(max-width:1400px){header{gap:8px;padding-left:16px;padding-right:16px}header .btn{padding:8px 11px;font-size:12.5px}nav button{padding:8px 12px}}
+@media(max-width:1300px){header h1{font-size:16px}header .badge{padding:2px 8px;font-size:11px}nav button{padding:8px 9px}header .btn{padding:8px 9px}header{gap:6px;padding-left:12px;padding-right:12px}}
+/* Paleta suavizada (aprovada): cor só em Tipo e valor */
+:root{--bg:#c9ced7;--card:#dce0e7;--text:#222a36;--muted:#586377;--line:#aeb6c4;--bad:#b4474f;--good:#1c7a58;--hover:#cbd1dc;--field:#e4e7ed;--gap:#c0c6d0;--orc:#12788d;--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(70,115,190,.14),transparent 60%),linear-gradient(180deg,#cfd4dc,#c3c9d3)}
+html[data-theme="dark"]{--bg:#171b26;--card:#212737;--text:#e4e8f1;--muted:#98a2b8;--line:#323a50;--bad:#f28b90;--good:#63d6a9;--hover:#2a3147;--field:#151925;--gap:#151925;--orc:#5cc8e0;--th-bg:linear-gradient(180deg,#2c3552,#222a42);--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(92,200,224,.07),transparent 60%),#171b26}
+html[data-theme="dark"] .gc{background:linear-gradient(160deg,var(--card),#1b2030)}
+.pv tr td{color:var(--text)}
+.pv td.n,.pv tr td:nth-child(2){color:var(--tone)}
+.tw table:not(.pv) tbody tr td input,.tw table:not(.pv) tbody tr td select{color:var(--text)}
+.tw table:not(.pv) tbody tr td:nth-child(2) select,.tw table:not(.pv) tbody tr td.n input{color:var(--tone)}
+/* Padrão da prévia: barra superior nos cards, colunas neutras, Orçado em destaque */
+.kpi::before{content:"";position:absolute;left:14px;right:14px;top:0;height:3px;border-radius:0 0 3px 3px;background:var(--ka,var(--c-real))}
+.pv td{font-weight:500}
+.pv td.n,.pv tr td:nth-child(2){font-weight:700}
+.pv td.n:not(.o){font-weight:500}
+.pv tr td:nth-child(3),.pv tr td:nth-child(5),.pv tr td:nth-child(1){color:var(--muted)}
+.pv tr td:nth-child(4){font-weight:700}
+.pv td.n.o{font-weight:700}
+.kpi-line{font-size:13.5px;white-space:nowrap}@media(min-width:1500px){.kpi-label{font-size:13.5px}}
+/* Orçado mais transparente com contorno (vinho / verde escuro) */
+:root{--bd-bad:#8a2c3b;--bd-good:#17604a}
+html[data-theme="dark"]{--bd-bad:#b04558;--bd-good:#2f9d78}
+.pv tr.tp-Despesa,.tw table:not(.pv) tbody tr.tp-Despesa{--bd:var(--bd-bad)}
+.pv tr.tp-Receita,.tw table:not(.pv) tbody tr.tp-Receita{--bd:var(--bd-good)}
+.pv td.n.o{background:linear-gradient(180deg,color-mix(in srgb,var(--tone) 18%,transparent),color-mix(in srgb,var(--tone) 5%,transparent)),var(--rb);box-shadow:inset 0 0 0 1.5px var(--bd);text-shadow:none}
+.tw table:not(.pv) tbody tr.orc td.oc{background:linear-gradient(180deg,color-mix(in srgb,var(--tone) 18%,transparent),color-mix(in srgb,var(--tone) 5%,transparent));box-shadow:inset 0 0 0 1.5px var(--bd)}
+html[data-theme="dark"] .pv td.n.o{text-shadow:none}
+.pv td.n.o{font-weight:500}
+.kpi-value{color:var(--ka,var(--c-real));-webkit-text-stroke:1.2px color-mix(in srgb,var(--ka,var(--c-real)) 55%,#000);paint-order:stroke fill;text-shadow:0 0 16px color-mix(in srgb,var(--ka,var(--c-real)) 55%,transparent)}
+html[data-theme="dark"] .kpi-value{-webkit-text-stroke:3px color-mix(in srgb,var(--ka,var(--c-real)) 38%,#000);color:color-mix(in srgb,var(--ka,var(--c-real)) 82%,#fff)}
+/* Cores mais escuras/metálicas (verde, vinho, turquesa), sem contorno no Orçado; tema claro grafite */
+:root{--bg:#a5acb8;--card:#bac0cb;--text:#18202b;--muted:#3e485a;--line:#8c95a6;--hover:#adb4c1;--field:#c6cbd5;--gap:#9aa2b0;--good:#17684a;--bad:#9f3a4c;--orc:#0d6477;--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(70,115,190,.10),transparent 60%),linear-gradient(180deg,#aab1bc,#9ca4b1)}
+html[data-theme="dark"]{--good:#45b48c;--bad:#cf6277;--orc:#45aec8;--c-real:#45aec8;--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(92,200,224,.07),transparent 60%),#171b26}
+.pv td.n.o,.tw table:not(.pv) tbody tr.orc td.oc{box-shadow:none}
+html[data-theme="dark"] .kpi-value{color:color-mix(in srgb,var(--ka,var(--c-real)) 75%,#fff)}
+html:not([data-theme="dark"]) .kpi-value{-webkit-text-stroke:.6px color-mix(in srgb,var(--ka,var(--c-real)) 60%,#000)}
+/* Tema escuro um pouco mais claro e vermelho mais claro */
+html[data-theme="dark"]{--bg:#1e2332;--card:#2a3246;--line:#3b4561;--hover:#343e58;--field:#1b2030;--gap:#1b2030;--bad:#dc7587;--bodybg:radial-gradient(900px 520px at 88% -8%,rgba(92,200,224,.07),transparent 60%),#1e2332}
+html[data-theme="dark"] .gc{background:linear-gradient(160deg,var(--card),#232a3c)}
+#notaP,.cad .hint{font-size:14px}
+.cad .row>label{font-size:14px;font-weight:700;text-align:center}
+/* Vermelho suave do tema escuro (validado) */
+html[data-theme="dark"]{--bad:#f28b90}
 </style>
 </head>
 <body>
@@ -284,15 +336,15 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
   <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="12" width="3.6" height="8" rx="1.2"/><rect x="10.2" y="7" width="3.6" height="13" rx="1.2"/><rect x="16.4" y="3.5" width="3.6" height="16.5" rx="1.2"/></svg></span>
   <h1>Finanças Pessoais</h1><span class="badge" id="nvBadge">Dados fictícios</span>
   <nav>
-    <button data-aba="P" class="on">Painel Dinâmico</button>
-    <button data-aba="D">Dashboards</button>
-    <button data-aba="A">Análises</button>
-    <button data-aba="C">Cadastros</button>
+    <button data-aba="P" class="on"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Painel Dinâmico</button>
+    <button data-aba="D"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</button>
+    <button data-aba="A"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>Análises</button>
+    <button data-aba="C"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>Cadastros</button>
   </nav>
   <span class="sp"></span>
-  <button class="btn" id="btnLanc">Lançamentos</button>
-  <button class="btn" id="btnGoogle">Google Sheets</button>
-  <button class="btn" id="btnReset">Restaurar dados fictícios</button>
+  <button class="btn" id="btnLanc"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lançamentos</button>
+  <button class="btn" id="btnGoogle"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.9A6 6 0 0 1 18 9a4.5 4.5 0 0 1 .5 9z"/><path d="M12 12v6M9.5 15.5L12 18l2.5-2.5"/></svg>Google Sheets</button>
+  <button class="btn" id="btnReset"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Restaurar dados fictícios</button>
   <button class="btn ico" id="btnTema" title="Alternar tema claro/escuro" aria-label="Alternar tema"></button>
 </header>
 <main id="layout">
@@ -303,7 +355,7 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
 </aside>
 <div id="conteudo">
 
-<section id="viewP"><div class="kpis" id="kpis"></div><div class="tw" id="twP"><table class="pv"><thead id="thP"></thead><tbody id="tbP"></tbody></table></div></section>
+<section id="viewP"><div class="kpis" id="kpis"></div><div class="tw" id="twP"><table class="pv"><thead id="thP"></thead><tbody id="tbP"></tbody></table></div><p class="nota" id="notaP"><b>Pago</b>: valor colorido · <span class="lgo">Orçado</span>: com preenchimento (valor projetado, ainda não pago). Cor só no Tipo e no valor; o resto em tom neutro.</p></section>
 
 <section id="viewL" hidden>
   <div class="card" style="padding:8px 12px">
@@ -311,15 +363,15 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
       <button class="btn pri" id="btnNovo">+ Novo lançamento</button>
       <strong style="margin-left:10px">Ajuste em lote</strong>
       <span class="sp"></span>
-      <input id="loteVal" class="money" inputmode="decimal" placeholder="Novo orçado (R$)" title="Novo orçado (R$)" style="width:140px">
+      <input id="loteVal" class="money" inputmode="decimal" placeholder="Novo valor (R$)" title="Novo valor (R$): aplica nas linhas Orçado filtradas" style="width:140px">
       <button class="btn" id="btnLoteAplicar">Aplicar às linhas filtradas</button>
       <button class="btn" id="btnLoteZerar">Zerar orçado</button>
-      <button class="btn" id="btnLoteMedia" title="Média móvel: cada mês sem Real recebe a média dos 3 meses anteriores (Real, ou o orçado já calculado)">Sugerir pela média</button>
+      <button class="btn" id="btnLoteMedia" title="Média móvel: cada mês Orçado recebe a média dos 3 meses anteriores (Pago, ou o Orçado já calculado)">Sugerir pela média</button>
       <button class="btn" id="btnExport" title="Exportar para Excel (.xlsx): baixa as linhas filtradas desta tela">Exportar</button>
     </div>
   </div>
   <div class="tw" id="tw"><table>
-    <thead><tr><th style="width:130px">Data</th><th style="width:105px">Tipo</th><th style="width:160px">Categoria</th><th>Descrição</th><th style="width:170px">Forma</th><th style="width:120px">Orçado</th><th style="width:120px">Real</th><th title="Semáforo (só lançamentos sem Real): verde = no prazo · amarelo = vence hoje · vermelho = vencido">●</th><th title="Pagou o previsto: repete o Orçado no Real">✓</th><th></th></tr></thead>
+    <thead><tr><th style="width:130px">Data</th><th style="width:105px">Tipo</th><th style="width:160px">Categoria</th><th>Descrição</th><th style="width:170px">Forma</th><th style="width:120px">Valor</th><th style="width:100px">Status</th><th title="Semáforo (só lançamentos Orçado): verde = no prazo · amarelo = vence hoje · vermelho = vencido">●</th><th title="Marcar como Pago (mantém o valor)">✓</th><th></th></tr></thead>
     <tbody id="tbody"></tbody>
   </table></div>
   <div class="tot" id="tot"></div>
@@ -344,17 +396,17 @@ main.dash #btnLimpar{width:auto;order:9;margin-left:auto;height:31px}
 
 <section id="viewD" hidden>
   <div class="charts" id="charts">
-    <div class="card gc"><div class="gh"><h3 id="g1t">Orçado × Real por ano · Despesas</h3><span class="leg"><i style="background:var(--c-orc)"></i>Orçado<i style="background:var(--c-real)"></i>Real<i style="background:var(--c-pend)"></i>Pendente</span></div><div id="g1"></div></div>
-    <div class="card gc"><div class="gh"><h3 id="g2t">Receita × Despesa e saldo por ano</h3><span class="leg"><i style="background:var(--good)"></i>Receita<i style="background:var(--bad)"></i>Despesa<i style="background:var(--c-line)"></i>Saldo</span></div><div id="g2"></div></div>
-    <div class="card gc"><div class="gh"><h3 id="g3t">Despesas por categoria</h3><span class="leg"><button class="btn" id="g3back" hidden>◂ Categorias</button><i style="background:var(--c-orc)"></i>Orçado<i style="background:var(--c-real)"></i>Real<i style="background:var(--c-pend)"></i>Pendente</span></div><div id="g3"></div></div>
+    <div class="card gc"><div class="gh"><h3 id="g1t">Pago + Orçado por ano · Despesas</h3><span class="leg"><i style="background:var(--bad)"></i>Pago<i style="background:color-mix(in srgb,var(--bad) 30%,transparent);border:1px solid var(--bad)"></i>Orçado</span></div><div id="g1"></div></div>
+    <div class="card gc"><div class="gh"><h3 id="g2t">Receita × Despesa e saldo por ano</h3><span class="leg"><i style="background:var(--good)"></i>Receita<i style="background:var(--bad)"></i>Despesa<i style="background:var(--orc)"></i>Saldo</span></div><div id="g2"></div></div>
+    <div class="card gc"><div class="gh"><h3 id="g3t">Despesas por categoria</h3><span class="leg"><button class="btn" id="g3back" hidden>◂ Categorias</button><i style="background:var(--bad)"></i>Pago<i style="background:color-mix(in srgb,var(--bad) 30%,transparent);border:1px solid var(--bad)"></i>Orçado</span></div><div id="g3"></div></div>
     <div class="card gc"><div class="gh"><h3 id="g5t">Taxa de poupança por ano</h3><span class="leg">(receita − despesa) ÷ receita</span></div><div id="g5"></div></div>
   </div>
-  <p class="nota">Valores projetados = Real, ou Orçado quando ainda não foi pago. Clique num ano para abrir os meses dele, num mês para filtrar a categoria, ou numa categoria para ver as descrições; clique de novo (ou use Voltar) para subir um nível.</p>
+  <p class="nota">Valores projetados = Pago + Orçado. Clique num ano para abrir os meses dele, num mês para filtrar a categoria, ou numa categoria para ver as descrições; clique de novo (ou use Voltar) para subir um nível.</p>
 </section>
 
 <section id="viewA" hidden>
   <div class="insights" id="insights"></div>
-  <p class="nota">Os cards respeitam os filtros acima. Estouro = real mais de 10% acima do orçado (só lançamentos pagos). Crescimento = último mês fechado (todos os lançamentos pagos) contra a média dos até 3 meses fechados anteriores.</p>
+  <p class="nota">Os cards respeitam os filtros acima. Estouros = despesas Pagas no mês atual contra o mês anterior (só itens Pagos nos dois meses; ignora o filtro de Data). Crescimento = último mês fechado (todos os lançamentos Pagos) contra a média dos até 3 meses fechados anteriores.</p>
 </section>
 </div>
 </main>
@@ -396,7 +448,6 @@ const BRL=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
 const NF=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const NF0=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0});
 const PCT=new Intl.NumberFormat('pt-BR',{style:'percent',minimumFractionDigits:1,maximumFractionDigits:1});
-const PCT2=new Intl.NumberFormat('pt-BR',{style:'percent',minimumFractionDigits:2,maximumFractionDigits:2});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const mesBR=ym=>ym.slice(5)+'/'+ym.slice(0,4);
@@ -420,11 +471,12 @@ function bindMoney(el){
   el.addEventListener('blur',()=>{const v=parseMoney(el.value);if(v!==null&&!isNaN(v))el.value=fmtN(v);});
 }
 
-/* ---- camada de dados (será trocada pelo Google Sheets no passo 5) ---- */
+/* ---- camada de dados ---- */
+const migra=d=>{d.lanc.forEach(r=>{if('orcado' in r||'real' in r){const p=r.real!==null&&r.real!==undefined;r.valor=p?r.real:r.orcado;r.status=p?'Pago':'Orçado';delete r.orcado;delete r.real;}});return d;}; // formato antigo: com Real = Pago (valor = Real); sem Real = Orçado
 const store={
-  load(){try{const s=localStorage.getItem('fin_dados_v2');if(s)return JSON.parse(s);}catch(e){}return structuredClone(SEED);},
+  load(){try{const s=localStorage.getItem('fin_dados_v2');if(s)return migra(JSON.parse(s));}catch(e){}return migra(structuredClone(SEED));},
   save(d){try{localStorage.setItem('fin_dados_v2',JSON.stringify(d));}catch(e){}},
-  reset(){try{localStorage.removeItem('fin_dados_v2');}catch(e){}return structuredClone(SEED);}
+  reset(){try{localStorage.removeItem('fin_dados_v2');}catch(e){}return migra(structuredClone(SEED));}
 };
 let DB=store.load();
 const persist=()=>{store.save(DB);NV.sujar();};
@@ -439,11 +491,11 @@ const ultimoDia=(y,m)=>m===2?28:new Date(y,m,0).getDate(); // fevereiro = 28 sem
 const diaDoMes=(y,m,dia)=>{const u=ultimoDia(y,m);return dia==='ultimo'?u:Math.min(Number(dia),u);};
 const iso=(y,m,d)=>y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
 const hojeISO=()=>{const d=new Date();return iso(d.getFullYear(),d.getMonth()+1,d.getDate());};
-function gerar(p){ // p: tipo,categoria,descricao,forma,orcado,dia,ano,mes(1-12),n
+function gerar(p){ // p: tipo,categoria,descricao,forma,valor,dia,ano,mes(1-12),n (cria linhas Orçado)
   const out=[];
   for(let i=0;i<p.n;i++){
     const t=p.mes-1+i,y=p.ano+Math.floor(t/12),m=t%12+1;
-    out.push({data:iso(y,m,diaDoMes(y,m,p.dia)),tipo:p.tipo,categoria:p.categoria,descricao:p.descricao,forma:p.forma,orcado:p.valores?p.valores[i]:p.orcado,real:null});
+    out.push({data:iso(y,m,diaDoMes(y,m,p.dia)),tipo:p.tipo,categoria:p.categoria,descricao:p.descricao,forma:p.forma,valor:p.valores?p.valores[i]:p.valor,status:'Orçado'});
   }
   return out;
 }
@@ -458,16 +510,16 @@ function continuacao(tipo,cat,desc,forma){ // mês seguinte ao último lançado 
 function novoId(){const n=DB.lanc.reduce((a,r)=>Math.max(a,Number(r.id.slice(1))),0)+1;return 'L'+String(n).padStart(6,'0');}
 
 /* ---- filtros multi-seleção (compartilhados por todas as abas); null = todos, Set = selecionados ---- */
-const KS=['meses','tipo','categoria','descricao','visao','forma','semaforo'];
-const ROT={tipo:'TIPO',categoria:'CATEGORIA',descricao:'DESCRIÇÃO',visao:'VISÃO',forma:'FORMA',meses:'DATA',semaforo:'SEMÁFORO'};
+const KS=['meses','tipo','categoria','descricao','status','forma','semaforo'];
+const ROT={tipo:'TIPO',categoria:'CATEGORIA',descricao:'DESCRIÇÃO',status:'STATUS',forma:'FORMA',meses:'DATA',semaforo:'SEMÁFORO'};
 const novoF=()=>Object.fromEntries(KS.map(k=>[k,null]));
 const FP=novoF(),FD=Object.assign(novoF(),{sel:null,gran:'A',prev:null,init:false}); // FP: Painel/Lançamentos/Análises · FD: Dashboards (sel = ano/mês clicado; gran = A anual | M mensal)
 let F=FP;
-const VISOES=['ORÇADO','REAL','ORÇADO vs REAL'];
+const STATUS=['Orçado','Pago'];
 const SEMA_LAB={Verde:'🟢 Verde — no prazo',Amarelo:'🟡 Amarelo — vence hoje',Vermelho:'🔴 Vermelho — vencido'};
 const lab=(k,v)=>k==='semaforo'?SEMA_LAB[v]:v;
-// semáforo (só lançamentos sem Real): verde = no prazo, amarelo = vence hoje, vermelho = vencido
-const semaforo=(r,hoje=hojeISO())=>r.real!==null?null:r.data<hoje?'Vermelho':r.data===hoje?'Amarelo':'Verde';
+// semáforo (só lançamentos Orçado): verde = no prazo, amarelo = vence hoje, vermelho = vencido
+const semaforo=(r,hoje=hojeISO())=>r.status==='Pago'?null:r.data<hoje?'Vermelho':r.data===hoje?'Amarelo':'Verde';
 const passa=(k,v)=>F[k]===null||F[k].has(v);
 const todosMeses=()=>uniq(DB.lanc.map(r=>r.data.slice(0,7))).sort();
 const az=(a,b)=>a.localeCompare(b,'pt-BR');
@@ -475,7 +527,7 @@ const ITENS={ // as opções de cada filtro respeitam os filtros anteriores (ví
   tipo:()=>['Receita','Despesa'],
   categoria:()=>uniq(DB.cad.filter(c=>passa('tipo',c.tipo)).map(c=>c.categoria)).sort(az),
   descricao:()=>uniq(DB.cad.filter(c=>passa('tipo',c.tipo)&&passa('categoria',c.categoria)).map(c=>c.descricao)).sort(az),
-  visao:()=>VISOES,
+  status:()=>STATUS,
   forma:()=>DB.formas,
   meses:todosMeses,
   semaforo:()=>['Verde','Amarelo','Vermelho']
@@ -494,10 +546,10 @@ function padraoD(){ // Dashboards: Anual, últimos 5 anos com dados
 }
 function filtradas(ignorar){
   const hoje=hojeISO(),ig=k=>[].concat(ignorar||[]).includes(k);
-  return DB.lanc.filter(r=>passa('tipo',r.tipo)&&(ig('categoria')||passa('categoria',r.categoria))&&(ig('descricao')||passa('descricao',r.descricao))&&passa('forma',r.forma)&&(ig('meses')||passa('meses',r.data.slice(0,7)))&&(ig('sel')||!F.sel||r.data.startsWith(F.sel))&&(F.semaforo===null||passa('semaforo',semaforo(r,hoje))))
+  return DB.lanc.filter(r=>passa('tipo',r.tipo)&&passa('status',r.status)&&(ig('categoria')||passa('categoria',r.categoria))&&(ig('descricao')||passa('descricao',r.descricao))&&passa('forma',r.forma)&&(ig('meses')||passa('meses',r.data.slice(0,7)))&&(ig('sel')||!F.sel||r.data.startsWith(F.sel))&&(F.semaforo===null||passa('semaforo',semaforo(r,hoje))))
     .sort((a,b)=>a.data<b.data?-1:a.data>b.data?1:Number(a.id.slice(1))-Number(b.id.slice(1)));
 }
-const alvoLote=()=>filtradas().filter(r=>r.real===null);
+const alvoLote=()=>filtradas().filter(r=>r.status==='Orçado');
 const opts=(arr,sel)=>arr.map(v=>`<option${v===sel?' selected':''}>${esc(v)}</option>`).join('');
 
 const anosFechados=new Set();
@@ -546,7 +598,7 @@ function renderMs(k){
 const VIS_D=['categoria','forma','meses'];
 function renderFiltros(){
   prune();const d=aba==='D';
-  KS.forEach(k=>{$('#fg_'+k).hidden=d?!VIS_D.includes(k):(k==='visao'&&aba!=='P');});
+  KS.forEach(k=>{$('#fg_'+k).hidden=d?!VIS_D.includes(k):false;});
   $('#fg_meses .fl').textContent=d?'PERÍODO':ROT.meses;
   KS.forEach(renderMs);renderNavD();
 }
@@ -607,28 +659,28 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 const SEMA_TIT={Verde:'No prazo',Amarelo:'Vence hoje',Vermelho:'Vencido'};
 const semHtml=r=>{const c=semaforo(r);return c?`<span class="sem sem-${c}" title="${SEMA_TIT[c]}">●</span>`:'';};
 function renderTabela(){
-  $('#tbody').innerHTML=filtradas().map(r=>`<tr data-id="${r.id}">
+  $('#tbody').innerHTML=filtradas().map(r=>`<tr data-id="${r.id}" class="tp-${r.tipo}${r.status==='Pago'?'':' orc'}">
     <td class="dt"><input type="text" inputmode="numeric" maxlength="10" placeholder="dd/mm/aaaa" autocomplete="off" data-f="data" value="${dataBR(r.data)}"><button type="button" class="cal" tabindex="-1" title="Abrir calendário" data-cal>📅</button><input type="date" class="dp" tabindex="-1" aria-hidden="true" value="${r.data}"></td>
     <td><select data-f="tipo">${opts(['Receita','Despesa'],r.tipo)}</select></td>
     <td><select data-f="categoria">${opts(listaCats(r.tipo),r.categoria)}</select></td>
     <td><select data-f="descricao">${opts(listaDesc(r.tipo,r.categoria),r.descricao)}</select></td>
     <td><select data-f="forma">${opts(DB.formas,r.forma)}</select></td>
-    <td class="n"><input class="money" inputmode="decimal" data-f="orcado" value="${fmtN(r.orcado)}"></td>
-    <td class="n"><input class="money" inputmode="decimal" data-f="real" value="${fmtN(r.real)}"></td>
+    <td class="n${r.status==='Pago'?'':' oc'}"><input class="money" inputmode="decimal" data-f="valor" value="${fmtN(r.valor)}"></td>
+    <td${r.status==='Pago'?'':' class="oc"'}><select data-f="status">${opts(STATUS,r.status)}</select></td>
     <td class="x semc">${semHtml(r)}</td>
-    <td class="x"><button class="pg" data-pago title="Pagou o previsto: repete o Orçado no Real"${r.real!==null?' disabled':''}>✓</button></td>
+    <td class="x"><button class="pg" data-pago title="Marcar como Pago (mantém o valor)"${r.status==='Pago'?' disabled':''}>✓</button></td>
     <td class="x"><button class="del" title="Excluir linha" data-del>🗑</button></td></tr>`).join('');
   renderTotais();
 }
 function renderTotais(){
-  const l=filtradas(),s=(t,k)=>l.filter(r=>r.tipo===t).reduce((a,r)=>a+(r[k]||0),0);
+  const l=filtradas(),s=(t,st)=>l.filter(r=>r.tipo===t&&r.status===st).reduce((a,r)=>a+r.valor,0);
   $('#tot').innerHTML=`<span>Mostrando <b>${l.length}</b> de ${DB.lanc.length} linhas</span>
-    <span>Receitas — orçado <b>${BRL.format(s('Receita','orcado'))}</b> · real <b>${BRL.format(s('Receita','real'))}</b></span>
-    <span>Despesas — orçado <b>${BRL.format(s('Despesa','orcado'))}</b> · real <b>${BRL.format(s('Despesa','real'))}</b></span>`;
+    <span>Receitas — pago <b>${BRL.format(s('Receita','Pago'))}</b> · orçado <b>${BRL.format(s('Receita','Orçado'))}</b></span>
+    <span>Despesas — pago <b>${BRL.format(s('Despesa','Pago'))}</b> · orçado <b>${BRL.format(s('Despesa','Orçado'))}</b></span>`;
 }
 function renderLote(){
   const n=alvoLote().length;
-  $('#loteVal').title=`${n} linha(s) filtrada(s) ainda sem Real (as que já têm Real não são alteradas)`;
+  $('#loteVal').title=`${n} linha(s) filtrada(s) com status Orçado (as Pagas não são alteradas)`;
   $('#btnLoteAplicar').disabled=$('#btnLoteZerar').disabled=$('#btnLoteMedia').disabled=n===0;
 }
 
@@ -655,7 +707,7 @@ function trocarAba(a){
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>trocarAba(b.dataset.aba));
 $('#btnLanc').onclick=()=>trocarAba(aba==='L'?abaAnt:'L');
 function fitBox(){ // a tabela ocupa só o espaço que sobra na tela
-  [['#twP','#viewP',0],['#tw','#viewL',$('#tot').offsetHeight]].forEach(([t,v,extra])=>{
+  [['#twP','#viewP',$('#notaP').offsetHeight+20],['#tw','#viewL',$('#tot').offsetHeight]].forEach(([t,v,extra])=>{
     const el=$(t);if(!el||$(v).hidden)return;
     el.style.maxHeight='none';
     el.style.maxHeight=Math.max(200,window.innerHeight-el.getBoundingClientRect().top-extra-22)+'px';
@@ -684,14 +736,22 @@ $('#tbody').addEventListener('focusin',e=>{
 $('#tbody').addEventListener('focusout',e=>{
   const el=e.target;if(!el.classList.contains('money'))return;
   const r=reg(el),f=el.dataset.f,v=parseMoney(el.value);
-  if((v===null&&f==='orcado')||(v!==null&&(isNaN(v)||v<0))){el.value=fmtN(r[f]);return toast('Informe um valor numérico maior ou igual a zero');}
+  if(v===null||isNaN(v)||v<0){el.value=fmtN(r[f]);return toast('Informe um valor numérico maior ou igual a zero');}
   if(v!==r[f]){r[f]=v;persist();renderFiltros();renderTotais();renderLote();}
   el.value=fmtN(r[f]);
-  if(f==='real'){const tr=el.closest('tr');tr.querySelector('[data-pago]').disabled=r.real!==null;tr.querySelector('.semc').innerHTML=semHtml(r);}
 });
+$('#tbody').addEventListener('focusin',e=>{if(e.target.dataset.f==='data')e.target.select();});
 $('#tbody').addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&(e.target.classList.contains('money')||e.target.dataset.f==='data'))e.target.blur();
-  else if(e.key==='Escape'&&e.target.dataset.f==='data'){e.target.value=dataBR(reg(e.target).data);e.target.blur();}
+  const el=e.target,f=el.dataset.f;
+  if(f!=='valor'&&f!=='data')return;
+  if(e.key==='Escape'&&f==='data'){el.value=dataBR(reg(el).data);el.blur();return;}
+  const dir=e.key==='Enter'?(e.shiftKey?-1:1):e.key==='ArrowDown'?1:e.key==='ArrowUp'?-1:0;
+  if(!dir)return;
+  e.preventDefault();
+  const tr=el.closest('tr'),viz=dir>0?tr.nextElementSibling:tr.previousElementSibling,id=viz&&viz.dataset.id;
+  el.blur(); // grava (a tabela pode reordenar por data); depois vai para a mesma coluna da linha vizinha
+  if(!id)return;
+  const nx=$(`#tbody tr[data-id="${id}"] [data-f="${f}"]`);if(nx){nx.focus();nx.select();}
 });
 $('#tbody').addEventListener('input',e=>{ // máscara dd/mm/aaaa: só números, barras automáticas, digitação contínua
   const el=e.target;if(el.dataset.f!=='data')return;
@@ -722,22 +782,22 @@ $('#tbody').addEventListener('change',e=>{
     r.categoria=el.value;r.descricao=listaDesc(r.tipo,r.categoria)[0]||'';toast('Descrição ajustada para '+r.descricao);
   }else r[f]=el.value;
   persist();renderFiltros();renderTotais();renderLote();
-  if(['data','tipo','categoria'].includes(f))renderTabela();
+  if(['data','tipo','categoria','status'].includes(f))renderTabela();
 });
 $('#tbody').addEventListener('click',async e=>{
   if(e.target.matches('[data-cal]')){const dp=e.target.closest('td').querySelector('.dp');try{dp.showPicker();}catch(x){dp.focus();}return;}
   if(e.target.matches('[data-pago]')){
-    const r=reg(e.target);if(r.real!==null)return;
-    r.real=r.orcado;persist();renderTabela();renderLote();return;
+    const r=reg(e.target);if(r.status==='Pago')return;
+    r.status='Pago';persist();renderTabela();renderLote();renderFiltros();return;
   }
   if(!e.target.matches('[data-del]'))return;
   const r=reg(e.target);
-  if(await confirmar('Excluir linha',`${mesBR(r.data.slice(0,7))} · ${esc(r.descricao)} · ${fmtN(r.orcado)}`,'Excluir')){
+  if(await confirmar('Excluir linha',`${mesBR(r.data.slice(0,7))} · ${esc(r.descricao)} · ${fmtN(r.valor)}`,'Excluir')){
     DB.lanc=DB.lanc.filter(x=>x.id!==r.id);persist();renderTudo();
   }
 });
 
-/* ---- média de 3 meses: Real (ou Orçado se ainda sem Real) dos até 3 meses mais recentes, até o mês atual, por tipo+categoria+descrição+forma ---- */
+/* ---- média de 3 meses: valor (Pago ou Orçado) dos até 3 meses mais recentes, até o mês atual, por tipo+categoria+descrição+forma ---- */
 function mediaSugerida(tipo,cat,desc,forma){
   const ate=hojeISO().slice(0,7),m=new Map();
   DB.lanc.forEach(r=>{const ym=r.data.slice(0,7);if(ym<=ate&&r.tipo===tipo&&r.categoria===cat&&r.descricao===desc&&r.forma===forma)m.set(ym,(m.get(ym)||0)+pj(r));});
@@ -749,14 +809,14 @@ function mediaSugerida(tipo,cat,desc,forma){
 async function lote(valor){
   const a=alvoLote();if(!a.length)return;
   const ds=uniq(a.map(r=>r.descricao)),ms=a.map(r=>r.data.slice(0,7)).sort();
-  const txt=valor===0?'Zerar o orçado':'Aplicar orçado de '+BRL.format(valor);
-  if(await confirmar(txt,`<b>${a.length}</b> linha(s), de ${mesBR(ms[0])} a ${mesBR(ms[ms.length-1])}.<br>Descrições: ${esc(ds.slice(0,6).join(', '))}${ds.length>6?' e mais '+(ds.length-6):''}.<br>Linhas que já têm Real não são alteradas.`,'Confirmar')){
-    a.forEach(r=>r.orcado=valor);persist();renderTudo();toast(a.length+' linha(s) atualizada(s)');
+  const txt=valor===0?'Zerar o orçado':'Aplicar valor de '+BRL.format(valor);
+  if(await confirmar(txt,`<b>${a.length}</b> linha(s), de ${mesBR(ms[0])} a ${mesBR(ms[ms.length-1])}.<br>Descrições: ${esc(ds.slice(0,6).join(', '))}${ds.length>6?' e mais '+(ds.length-6):''}.<br>Linhas Pagas não são alteradas.`,'Confirmar')){
+    a.forEach(r=>r.valor=valor);persist();renderTudo();toast(a.length+' linha(s) atualizada(s)');
   }
 }
-$('#btnLoteAplicar').onclick=()=>{const v=parseMoney($('#loteVal').value);if(v===null||isNaN(v)||v<0)return toast('Informe o novo orçado');lote(v);};
+$('#btnLoteAplicar').onclick=()=>{const v=parseMoney($('#loteVal').value);if(v===null||isNaN(v)||v<0)return toast('Informe o novo valor');lote(v);};
 $('#btnLoteZerar').onclick=()=>lote(0);
-async function loteMedia(){ // média móvel: cada mês sem Real = média dos 3 meses anteriores (Real, ou o orçado já calculado), mês a mês
+async function loteMedia(){ // média móvel: cada mês Orçado = média dos 3 meses anteriores (Pago, ou o Orçado já calculado), mês a mês
   const a=alvoLote();if(!a.length)return;
   const ser=new Map(),kc=r=>[r.tipo,r.categoria,r.descricao,r.forma].join('|');
   DB.lanc.forEach(r=>{const k=kc(r),ym=r.data.slice(0,7);if(!ser.has(k))ser.set(k,new Map());const m=ser.get(k);m.set(ym,(m.get(ym)||0)+pj(r));});
@@ -764,14 +824,14 @@ async function loteMedia(){ // média móvel: cada mês sem Real = média dos 3 
   a.forEach(r=>{ // a já vem em ordem de data
     const m=ser.get(kc(r)),ym=r.data.slice(0,7),ant=[...m.keys()].filter(x=>x<ym).sort().slice(-3);
     if(!ant.length)return;
-    const v=sum(ant,x=>m.get(x))/ant.length;plano.set(r.id,v);m.set(ym,m.get(ym)-r.orcado+v);
+    const v=sum(ant,x=>m.get(x))/ant.length;plano.set(r.id,v);m.set(ym,m.get(ym)-r.valor+v);
     if(!ex.has(r.descricao))ex.set(r.descricao,[ym,v]);
   });
   const ok=a.filter(r=>plano.has(r.id)),sem=a.length-ok.length;
   if(!ok.length)return toast('Nenhuma linha filtrada tem histórico para calcular a média');
   const exs=[...ex].slice(0,4).map(([d,[ym,v]])=>`${esc(d)} (${mesBR(ym)}): ${BRL.format(v)}`);
-  if(await confirmar('Sugerir orçado pela média',`<b>${ok.length}</b> linha(s) receberão a média dos 3 meses anteriores (Real, ou o orçado já calculado), mês a mês, por categoria, descrição e forma.${sem?`<br>${sem} linha(s) sem histórico ficam como estão.`:''}<br>Primeiro mês de cada descrição: ${exs.join(' · ')}.<br>Linhas que já têm Real não são alteradas.`,'Confirmar')){
-    ok.forEach(r=>r.orcado=Math.round(plano.get(r.id)*100)/100);persist();renderTudo();toast(ok.length+' linha(s) atualizada(s)');
+  if(await confirmar('Sugerir orçado pela média',`<b>${ok.length}</b> linha(s) receberão a média dos 3 meses anteriores (Pago, ou o Orçado já calculado), mês a mês, por categoria, descrição e forma.${sem?`<br>${sem} linha(s) sem histórico ficam como estão.`:''}<br>Primeiro mês de cada descrição: ${exs.join(' · ')}.<br>Linhas Pagas não são alteradas.`,'Confirmar')){
+    ok.forEach(r=>r.valor=Math.round(plano.get(r.id)*100)/100);persist();renderTudo();toast(ok.length+' linha(s) atualizada(s)');
   }
 }
 $('#btnLoteMedia').onclick=loteMedia;
@@ -796,8 +856,8 @@ function exportarExcel(){
   const X=v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'),col='ABCDEFG';
   const tx=(c,r,v,st)=>`<c r="${c}${r}" t="inlineStr"${st?` s="${st}"`:''}><is><t>${X(v)}</t></is></c>`,nm=(c,r,v,st)=>v===null?'':`<c r="${c}${r}" s="${st}"><v>${v}</v></c>`;
   const serie=d=>Date.UTC(+d.slice(0,4),+d.slice(5,7)-1,+d.slice(8,10))/86400000+25569;
-  let sh='<row r="1">'+['Data','Tipo','Categoria','Descrição','Forma','Orçado','Real'].map((h,i)=>tx(col[i],1,h,1)).join('')+'</row>';
-  rows.forEach((r,i)=>{const n=i+2;sh+=`<row r="${n}">${nm('A',n,serie(r.data),2)}${tx('B',n,r.tipo)}${tx('C',n,r.categoria)}${tx('D',n,r.descricao)}${tx('E',n,r.forma)}${nm('F',n,r.orcado,3)}${nm('G',n,r.real,3)}</row>`;});
+  let sh='<row r="1">'+['Data','Tipo','Categoria','Descrição','Forma','Valor','Status'].map((h,i)=>tx(col[i],1,h,1)).join('')+'</row>';
+  rows.forEach((r,i)=>{const n=i+2;sh+=`<row r="${n}">${nm('A',n,serie(r.data),2)}${tx('B',n,r.tipo)}${tx('C',n,r.categoria)}${tx('D',n,r.descricao)}${tx('E',n,r.forma)}${nm('F',n,r.valor,3)}${tx('G',n,r.status)}</row>`;});
   const H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n',ns='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"',rn='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
   const blob=zipSimples([
     ['[Content_Types].xml',H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'],
@@ -826,12 +886,12 @@ function prepararNovo(vazio){
   $('#nTipo').value=branco?'':'Despesa';catNovo();
 }
 function catNovo(){
-  $('#nCat').innerHTML=(branco?'<option value=""></option>':'')+opts(listaCats($('#nTipo').value),'');
+  $('#nCat').innerHTML=(branco?'<option value=""></option>':'')+opts(listaCats($('#nTipo').value).sort(az),'');
   if(!branco)$('#nForma').innerHTML=opts(DB.formas,$('#nForma').value||DB.formas[0]);
   descNovo();
 }
 function descNovo(){
-  $('#nDesc').innerHTML=(branco?'<option value=""></option>':'')+opts(listaDesc($('#nTipo').value,$('#nCat').value),'');
+  $('#nDesc').innerHTML=(branco?'<option value=""></option>':'')+opts(listaDesc($('#nTipo').value,$('#nCat').value).sort(az),'');
   sugerirMes();
 }
 function sugerirMes(){ // trocou a combinação: mês e dia voltam ao padrão (ou à sequência do histórico), sem herdar datas de outra série
@@ -845,7 +905,7 @@ function sugerirMes(){ // trocou a combinação: mês e dia voltam ao padrão (o
   sugerirValor();
   prevNovo();
 }
-function mediaMovel(tipo,cat,desc,forma,ano,mes,n){ // média móvel: cada mês novo = média dos 3 meses anteriores (Real, ou o orçado já calculado)
+function mediaMovel(tipo,cat,desc,forma,ano,mes,n){ // média móvel: cada mês novo = média dos 3 meses anteriores (Pago, ou o Orçado já calculado)
   if(!ano||!mes||!(n>=1))return null;
   const m=new Map();
   DB.lanc.forEach(r=>{if(r.tipo===tipo&&r.categoria===cat&&r.descricao===desc&&r.forma===forma){const ym=r.data.slice(0,7);m.set(ym,(m.get(ym)||0)+pj(r));}});
@@ -872,7 +932,7 @@ function sugerirValor(){ // com o valor em branco/sugerido, cada mês criado rec
 function lerNovo(){
   const v=parseMoney($('#nVal').value);
   const p={tipo:$('#nTipo').value,categoria:$('#nCat').value,descricao:$('#nDesc').value,forma:$('#nForma').value,
-    orcado:v,dia:$('#nDia').value,n:Number($('#nQtd').value)};
+    valor:v,dia:$('#nDia').value,n:Number($('#nQtd').value)};
   const [a,m]=($('#nMes').value||'').split('-').map(Number);p.ano=a;p.mes=m;
   if(!manual.val){const s=mediaMovel(p.tipo,p.categoria,p.descricao,p.forma,a,m,p.n);if(s&&s.vals.length===p.n)p.valores=s.vals;}
   let erro='';
@@ -969,51 +1029,51 @@ $('#addForma').onclick=()=>{const v=$('#newForma').value.trim();
 
 /* ---- números do dashboard (puros) ---- */
 function grp(l){
-  const pago=l.filter(r=>r.real!==null),pend=l.filter(r=>r.real===null);
-  const orc=sum(l,r=>r.orcado),real=sum(pago,r=>r.real),pendV=sum(pend,r=>r.orcado);
-  return {orc,real,pend:pendV,proj:real+pendV};
+  const pago=sum(l.filter(r=>r.status==='Pago'),r=>r.valor),orc=sum(l.filter(r=>r.status!=='Pago'),r=>r.valor);
+  return {pago,orc,proj:pago+orc};
 }
 function kpis(rows){
   const rec=grp(rows.filter(r=>r.tipo==='Receita')),des=grp(rows.filter(r=>r.tipo==='Despesa'));
   const formas=DB.formas.map(f=>({forma:f,...grp(rows.filter(r=>r.tipo==='Despesa'&&r.forma===f))}));
-  const inv={orc:rec.orc-des.orc,proj:rec.proj-des.proj};
+  const inv={pago:rec.pago-des.pago,proj:rec.proj-des.proj};
   inv.pctRec=rec.proj?inv.proj/rec.proj:null;
   return {rec,des,formas,inv};
 }
-function estouros(rows){ // despesas pagas por categoria+descrição: real mais de 10% acima do orçado
-  const m=new Map();
-  rows.filter(r=>r.tipo==='Despesa'&&r.real!==null).forEach(r=>{const k=r.categoria+'|'+r.descricao,o=m.get(k)||{d:r.descricao,c:r.categoria,orc:0,real:0};o.orc+=r.orcado;o.real+=r.real;m.set(k,o);});
-  return [...m.values()].map(o=>({...o,var:o.real-o.orc,pct:o.orc?(o.real-o.orc)/o.orc:null})).filter(o=>o.pct!==null&&o.pct>0.1+1e-9).sort((a,b)=>b.var-a.var).slice(0,5);
-}
 function crescimento(rows){ // despesas por categoria: último mês fechado × média dos até 3 meses fechados anteriores
   const d=rows.filter(r=>r.tipo==='Despesa'),meses=uniq(d.map(r=>r.data.slice(0,7))).sort();
-  const fechados=meses.filter(m=>d.filter(r=>r.data.startsWith(m)).every(r=>r.real!==null));
+  const fechados=meses.filter(m=>d.filter(r=>r.data.startsWith(m)).every(r=>r.status==='Pago'));
   if(fechados.length<2)return {ok:false};
   const ult=fechados[fechados.length-1],ant=fechados.slice(-4,-1);
-  const tot=(c,m)=>sum(d.filter(r=>r.categoria===c&&r.data.startsWith(m)),r=>r.real);
+  const tot=(c,m)=>sum(d.filter(r=>r.categoria===c&&r.data.startsWith(m)),r=>r.valor);
   const lista=uniq(d.map(r=>r.categoria)).map(c=>{
     const atual=tot(c,ult),media=sum(ant,m=>tot(c,m))/ant.length;
     return {c,atual,media,var:atual-media,pct:media?(atual-media)/media:null};
   }).filter(o=>o.var>0.005).sort((a,b)=>b.var-a.var).slice(0,5);
   return {ok:true,ult,ant,lista};
 }
-const vencidos=(rows,hoje)=>rows.filter(r=>r.real===null&&r.data<hoje).sort((a,b)=>a.data<b.data?-1:a.data>b.data?1:0);
-/* ---- dashboards: por ora só os cards; gráficos serão construídos um a um ---- */
-function chip(v,pct,bomSeMaior,pf=PCT){
-  const z=Math.abs(v)<0.005,cls=z?'':((v>0)===bomSeMaior?'good':'bad');
-  return `<span class="chip ${cls}">${z?'':(v>0?'▲ +':'▼ ')}${z?'0,00':fmtN(v)}${pct===null||z?'':` (${v>0?'+':''}${pf.format(pct)})`}</span>`;
+function variacoes(rows,hoje){ // despesas Pagas por categoria+descrição: mês atual × mês anterior; só variação acima de 10%, para mais ou para menos
+  const ym=hoje.slice(0,7),y=+ym.slice(0,4),m=+ym.slice(5),ant=m===1?(y-1)+'-12':y+'-'+String(m-1).padStart(2,'0'),mp=new Map();
+  rows.filter(r=>r.tipo==='Despesa'&&r.status==='Pago'&&(r.data.startsWith(ym)||r.data.startsWith(ant))).forEach(r=>{
+    const k=r.categoria+'|'+r.descricao,o=mp.get(k)||{d:r.descricao,c:r.categoria,atual:0,ant:0};
+    if(r.data.startsWith(ym))o.atual+=r.valor;else o.ant+=r.valor;mp.set(k,o);
+  });
+  const lista=[...mp.values()].filter(o=>o.atual>0&&o.ant>0).map(o=>({...o,var:o.atual-o.ant,pct:(o.atual-o.ant)/o.ant}))
+    .filter(o=>Math.abs(o.pct)>0.1+1e-9).sort((a,b)=>Math.abs(b.var)-Math.abs(a.var)).slice(0,8);
+  return {ym,ant,lista};
 }
-function cardKpi(titulo,g,rotPend,cl=''){
-  return `<div class="kpi${cl}"><div class="kpi-label">${esc(titulo)}</div><div class="kpi-value">${BRL.format(g.real)}</div>
-    <div class="kpi-line"><span>Orçado</span><span>${BRL.format(g.orc)}</span></div>
-    <div class="kpi-line"><span>${rotPend}</span><span>${BRL.format(g.pend)}</span></div></div>`;
+const vencidos=(rows,hoje)=>rows.filter(r=>r.status!=='Pago'&&r.data<hoje).sort((a,b)=>a.data<b.data?-1:a.data>b.data?1:0);
+/* ---- dashboards: por ora só os cards; gráficos serão construídos um a um ---- */
+function cardKpi(titulo,g,cl=''){
+  return `<div class="kpi${cl}"><div class="kpi-label">${esc(titulo)}</div><div class="kpi-value">${BRL.format(g.proj)}</div>
+    <div class="kpi-line"><span>Pago</span><span>${BRL.format(g.pago)}</span></div>
+    <div class="kpi-line"><span>Orçado</span><span>${BRL.format(g.orc)}</span></div></div>`;
 }
 function renderKpis(){
   const k=kpis(filtradas());
-  $('#kpis').innerHTML=cardKpi('Receitas',k.rec,'A receber')+cardKpi('Despesas',k.des,'A pagar')
-    +(fs=>fs.map((f,i)=>cardKpi('↳ '+f.forma,f,'A pagar',' kf'+(i===0?' k1':'')+(i===fs.length-1?' kn':''))).join(''))(k.formas.filter(f=>f.orc>0||f.real>0))
+  $('#kpis').innerHTML=cardKpi('Receitas',k.rec)+cardKpi('Despesas',k.des)
+    +(fs=>fs.map((f,i)=>cardKpi('↳ '+f.forma,f,' kf'+(i===0?' k1':'')+(i===fs.length-1?' kn':''))).join(''))(k.formas.filter(f=>f.proj>0))
     +`<div class="kpi ki"><div class="kpi-label">Investido (projetado)</div><div class="kpi-value">${BRL.format(k.inv.proj)}</div>
-      <div class="kpi-line"><span>Orçado</span><span>${BRL.format(k.inv.orc)}</span></div>
+      <div class="kpi-line"><span>Pago</span><span>${BRL.format(k.inv.pago)}</span></div>
       <div class="kpi-line"><span>% da receita</span><span>${k.inv.pctRec===null?'—':PCT.format(k.inv.pctRec)}</span></div></div>`;
 }
 function renderDash(){renderGraficos();}
@@ -1030,7 +1090,7 @@ function voltaCat(){ // sai do nível Descrição e restaura o filtro de categor
   if('descricao' in prevSel){F.descricao=prevSel.descricao;delete prevSel.descricao;}
   F.categoria='categoria' in prevSel?prevSel.categoria:null;delete prevSel.categoria;aoFiltrar();
 }
-const pj=r=>r.real!==null?r.real:r.orcado;
+const pj=r=>r.valor; // valor projetado = Pago + Orçado
 const selP=p=>!F.sel||p.startsWith(F.sel)||F.sel.startsWith(p);
 const gl=()=>F.gran==='M'?7:4;
 const labP=p=>p.length===4?p:mesCurto(p),titP=p=>p.length===4?'Ano '+p:mesNome(p)+'/'+p.slice(0,4);
@@ -1068,23 +1128,23 @@ function camadaMes(ms,L,R,T,B,W,H,tips){ // faixa de destaque, rótulos e área 
   return {bw,cx:i=>L+bw*(i+.5),bands,lab,hit};
 }
 
-function g1(CW,a){ // Orçado × Real × Pendente por mês (despesas)
+function g1(CW,a){ // Pago + Orçado por mês (despesas), barras empilhadas
   const rows=filtradas('sel').filter(r=>r.tipo==='Despesa'),ms=uniq(rows.map(r=>r.data.slice(0,gl()))).sort();
   if(!ms.length)return vazio();
   const d=ms.map(m=>({m,...grp(rows.filter(r=>r.data.startsWith(m)))})),W=Math.max(CW,60+ms.length*PM());
-  const H=300,L=50,R=10,T=14,B=28,sc=escala(0,Math.max(...d.map(o=>Math.max(o.orc,o.proj)))),e=eixoY(sc,L,R,T,B,W,H,fmtK);
-  const tips=d.map(o=>`${titP(o.m)}\nOrçado:    ${BRL.format(o.orc)}\nReal:      ${BRL.format(o.real)}\nPendente:  ${BRL.format(o.pend)}\nProjetado: ${BRL.format(o.proj)}`);
-  const c=camadaMes(ms,L,R,T,B,W,H,tips),base=e.y(0),w=barW(c.bw,ms),g=w<5?1:3;
+  const H=300,L=50,R=10,T=14,B=28,sc=escala(0,Math.max(...d.map(o=>o.proj))),e=eixoY(sc,L,R,T,B,W,H,fmtK);
+  const tips=d.map(o=>`${titP(o.m)}\nPago:    ${BRL.format(o.pago)}\nOrçado:  ${BRL.format(o.orc)}\nTotal:   ${BRL.format(o.proj)}`);
+  const c=camadaMes(ms,L,R,T,B,W,H,tips),base=e.y(0),w=barW(c.bw,ms)*1.7;
   const bars=d.map((o,i)=>{
-    const yO=e.y(o.orc),yP=e.y(o.proj),yR=e.y(o.real),xo=c.cx(i)-w-g/2,xe=c.cx(i)+g/2;
-    return `<g class="${selP(o.m)?'':'dim'}"><path ${cls('glw',i,a)} d="${bp(xo,yO,w,base-yO,4)}" fill="url(#g1o)"/>`
-      +`<path ${cls('glw',i,a)} d="${bp(xe,yP,w,yR-yP,4)}" fill="url(#g1p)"/><path ${cls('glw',i,a)} d="${bp(xe,yR,w,base-yR,o.pend>0.005?0:4)}" fill="url(#g1r)"/></g>`;
+    const yP=e.y(o.pago),yT=e.y(o.proj),x=c.cx(i)-w/2;
+    return `<g class="${selP(o.m)?'':'dim'}"><path ${cls('glw',i,a)} d="${bp(x,yP,w,base-yP,o.orc>0.005?0:4)}" fill="url(#g1r)"/>`
+      +`<path ${cls('glw',i,a)} d="${bp(x,yT,w,yP-yT,4)}" fill="url(#g1p)" stroke="var(--bad)" stroke-opacity=".45"/></g>`;
   }).join('');
-  const defs=gd('g1o','var(--c-orc)',1,.55)+gd('g1r','var(--c-real)',1,.6)+gd('g1p','var(--c-real)',.55,.18);
+  const defs=gd('g1r','var(--bad)',1,.6)+gd('g1p','var(--bad)',.32,.12);
   return svgS(W,H,L,defs,c.bands+e.svg+bars+c.lab+c.hit);
 }
 
-function g2(CW,a){ // Receita × Despesa (barras) + Saldo (linha), valores projetados (real, ou orçado se pendente)
+function g2(CW,a){ // Receita × Despesa (barras) + Saldo (linha), valores projetados (Pago + Orçado)
   const rows=filtradas('sel'),ms=uniq(rows.map(r=>r.data.slice(0,gl()))).sort();
   if(!ms.length)return vazio();
   const s=(m,t)=>sum(rows.filter(r=>r.data.startsWith(m)&&r.tipo===t),pj);
@@ -1097,8 +1157,8 @@ function g2(CW,a){ // Receita × Despesa (barras) + Saldo (linha), valores proje
     return `<g class="${selP(o.m)?'':'dim'}"><path ${cls('glw',i,a)} d="${bp(c.cx(i)-w-g/2,yR,w,base-yR,4)}" fill="url(#g2r)"/><path ${cls('glw',i,a)} d="${bp(c.cx(i)+g/2,yD,w,base-yD,4)}" fill="url(#g2d)"/></g>`;
   }).join('');
   const pts=d.map((o,i)=>[c.cx(i),e.y(o.sal)]);
-  const linha=`<g class="${a?'fade':''}"><path class="glw" d="M${pts.map(p=>p.join(',')).join('L')}" fill="none" stroke="var(--c-line)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`
-    +pts.map((p,i)=>`<circle class="${selP(d[i].m)?'':'dim'}" cx="${p[0]}" cy="${p[1]}" r="${F.sel&&selP(d[i].m)?5.5:ms.length>30?2.5:4}" fill="var(--card)" stroke="var(--c-line)" stroke-width="2"/>`).join('')+'</g>';
+  const linha=`<g class="${a?'fade':''}"><path class="glw" d="M${pts.map(p=>p.join(',')).join('L')}" fill="none" stroke="var(--orc)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`
+    +pts.map((p,i)=>`<circle class="${selP(d[i].m)?'':'dim'}" cx="${p[0]}" cy="${p[1]}" r="${F.sel&&selP(d[i].m)?5.5:ms.length>30?2.5:4}" fill="var(--card)" stroke="var(--orc)" stroke-width="2"/>`).join('')+'</g>';
   const defs=gd('g2r','var(--good)',1,.5)+gd('g2d','var(--bad)',1,.5);
   return svgS(W,H,L,defs,c.bands+e.svg+bars+linha+c.lab+c.hit);
 }
@@ -1109,22 +1169,21 @@ function g3(W,a){ // Despesas por categoria; clicar numa categoria abre as descr
   $('#g3back').hidden=!nivelD;
   const rows=filtradas([k]).filter(r=>r.tipo==='Despesa'),mp=new Map();
   rows.forEach(r=>{(mp.get(r[k])||mp.set(r[k],[]).get(r[k])).push(r);});
-  const it=[...mp].map(([n,l])=>({n,...grp(l),orcPago:sum(l.filter(r=>r.real!==null),r=>r.orcado)})).sort((x,y)=>y.proj-x.proj).slice(0,12);
+  const it=[...mp].map(([n,l])=>({n,...grp(l)})).sort((x,y)=>y.proj-x.proj).slice(0,12);
   if(!it.length)return vazio();
-  const maxN=Math.min(44,Math.max(...it.map(o=>o.n.length))),L=Math.min(330,Math.max(132,Math.round(maxN*6.8)+22)),R=70,T=6,B=26,rh=40,bh=11,H=T+B+it.length*rh,sc=escala(0,Math.max(...it.map(o=>Math.max(o.orc,o.proj)))),x=v=>L+v/sc.hi*(W-L-R);
+  const maxN=Math.min(44,Math.max(...it.map(o=>o.n.length))),L=Math.min(330,Math.max(132,Math.round(maxN*6.8)+22)),R=70,T=6,B=26,rh=40,bh=16,H=T+B+it.length*rh,sc=escala(0,Math.max(...it.map(o=>o.proj))),x=v=>L+v/sc.hi*(W-L-R);
   const grade=sc.t.map(v=>`<line class="glg" x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H-B}"/><text class="ax" x="${x(v)}" y="${H-8}" text-anchor="middle">${fmtK(v)}</text>`).join('');
   let linhas='',hit='';
   it.forEach((o,i)=>{
-    const y0=T+i*rh,yO=y0+7,yE=yO+bh+3,dim=F[k]===null||F[k].has(o.n)?'':'dim',vr=o.real-o.orcPago;
+    const y0=T+i*rh,yB=y0+(rh-bh)/2,dim=F[k]===null||F[k].has(o.n)?'':'dim';
     const nome=o.n.length>44?o.n.slice(0,43)+'…':o.n;
     linhas+=`<g class="${dim}"><text class="axl" x="${L-8}" y="${y0+rh/2+4}" text-anchor="end">${esc(nome)}</text>`
-      +`<path ${cls('glw',i,a,'x')} d="${bph(L,yO,x(o.orc)-L,bh,5)}" fill="url(#g3o)"/>`
-      +`<path ${cls('glw',i,a,'x')} d="${bph(L,yE,x(o.real)-L,bh,o.pend>0.005?0:5)}" fill="url(#g3r)"/>`
-      +`<path ${cls('glw',i,a,'x')} d="${bph(x(o.real),yE,x(o.proj)-x(o.real),bh,5)}" fill="url(#g3p)"/>`
-      +`<text class="vl" x="${x(Math.max(o.orc,o.proj))+6}" y="${y0+rh/2+4}">${NF0.format(o.proj)}</text></g>`;
-    hit+=`<rect class="hit" x="0" y="${y0}" width="${W}" height="${rh}" data-k="${k}" data-v="${esc(o.n)}" data-tip="${esc(`${o.n}\nOrçado:    ${BRL.format(o.orc)}\nReal:      ${BRL.format(o.real)}\nPendente:  ${BRL.format(o.pend)}\nProjetado: ${BRL.format(o.proj)}\nReal − orçado (pagos): ${vr>0?'+':''}${BRL.format(vr)}`)}"/>`;
+      +`<path ${cls('glw',i,a,'x')} d="${bph(L,yB,x(o.pago)-L,bh,o.orc>0.005?0:5)}" fill="url(#g3r)"/>`
+      +`<path ${cls('glw',i,a,'x')} d="${bph(x(o.pago),yB,x(o.proj)-x(o.pago),bh,5)}" fill="url(#g3p)" stroke="var(--bad)" stroke-opacity=".45"/>`
+      +`<text class="vl" x="${x(o.proj)+6}" y="${y0+rh/2+4}">${NF0.format(o.proj)}</text></g>`;
+    hit+=`<rect class="hit" x="0" y="${y0}" width="${W}" height="${rh}" data-k="${k}" data-v="${esc(o.n)}" data-tip="${esc(`${o.n}\nPago:    ${BRL.format(o.pago)}\nOrçado:  ${BRL.format(o.orc)}\nTotal:   ${BRL.format(o.proj)}`)}"/>`;
   });
-  const defs=gd('g3o','var(--c-orc)',.55,1,1)+gd('g3r','var(--c-real)',.6,1,1)+gd('g3p','var(--c-real)',.18,.55,1);
+  const defs=gd('g3r','var(--bad)',.6,1,1)+gd('g3p','var(--bad)',.12,.34,1);
   return svg(W,H,defs,grade+linhas+hit);
 }
 
@@ -1150,7 +1209,7 @@ function renderGraficos(){
   $('#tip').style.display='none';
   const a=animarGraf;animarGraf=false;
   const u=F.gran==='M'?'mês':'ano';
-  $('#g1t').textContent=`Orçado × Real por ${u} · Despesas`;$('#g2t').textContent=`Receita × Despesa e saldo por ${u}`;$('#g5t').textContent=`Taxa de poupança por ${u}`;
+  $('#g1t').textContent=`Pago + Orçado por ${u} · Despesas`;$('#g2t').textContent=`Receita × Despesa e saldo por ${u}`;$('#g5t').textContent=`Taxa de poupança por ${u}`;
   [['g1',g1],['g2',g2],['g3',g3],['g5',g5]].forEach(([id,fn])=>{const el=$('#'+id);el.innerHTML=fn(Math.max(300,el.clientWidth||560),a);});
   document.querySelectorAll('#charts .sc').forEach(sc=>{sc.scrollLeft=scFim?sc.scrollWidth:scX;sc.onscroll=()=>{ // os 3 gráficos temporais rolam juntos
     if(sc.dataset.sync)return;scX=sc.scrollLeft;scFim=sc.scrollWidth-sc.clientWidth-sc.scrollLeft<4;
@@ -1169,7 +1228,7 @@ $('#charts').addEventListener('mousemove',e=>{
 $('#charts').addEventListener('mouseleave',()=>$('#tip').style.display='none');
 window.addEventListener('resize',()=>{if(aba==='D')renderGraficos();});
 
-/* ---- painel dinâmico: uma linha de ORÇADO, REAL, ORÇADO vs REAL e VAR % por Tipo/Categoria/Descrição/Forma, meses na horizontal ---- */
+/* ---- painel dinâmico: uma linha por Tipo/Categoria/Descrição/Forma, meses na horizontal; valor em cor normal (Pago) ou destacada (Orçado) ---- */
 function blocosPainel(rows){
   const m=new Map();
   rows.forEach(r=>{
@@ -1181,57 +1240,45 @@ function blocosPainel(rows){
     const dias=uniq(b.lin.map(r=>{const y=+r.data.slice(0,4),mm=+r.data.slice(5,7),d=+r.data.slice(8);return d===ultimoDia(y,mm)?'U':String(d);}));
     b.dia=dias.length===1?(dias[0]==='U'?'Último':dias[0].padStart(2,'0')):'Var.';
     b.ord=dias.length===1?(dias[0]==='U'?98:+dias[0]):99;
-    b.orc={};b.real={};b.orcPago={};
+    b.cel={};
     b.lin.forEach(r=>{
-      const ym=r.data.slice(0,7);
-      b.orc[ym]=(b.orc[ym]||0)+r.orcado;
-      if(r.real!==null){b.real[ym]=(b.real[ym]||0)+r.real;b.orcPago[ym]=(b.orcPago[ym]||0)+r.orcado;}
+      const ym=r.data.slice(0,7),c=b.cel[ym]||(b.cel[ym]={pago:0,orc:0,o:false});
+      if(r.status==='Pago')c.pago+=r.valor;else{c.orc+=r.valor;c.o=true;}
     });
     return b;
   }).sort((a,b)=>a.ord-b.ord||a.tipo.localeCompare(b.tipo,'pt-BR')||a.categoria.localeCompare(b.categoria,'pt-BR')||a.descricao.localeCompare(b.descricao,'pt-BR')||a.forma.localeCompare(b.forma,'pt-BR'));
 }
-const PV_COLS=[['DIA',46],['TIPO',64],['CATEGORIA',108],['DESCRIÇÃO',180],['VISÃO',80],['FORMA',124]];
+const PV_COLS=[['DIA',46],['TIPO',64],['CATEGORIA',108],['DESCRIÇÃO',180],['FORMA',124]];
 function renderPainel(){
   renderKpis();
   const ms=todosMeses().filter(m=>passa('meses',m)),bl=blocosPainel(filtradas());
   let x=0;const left=PV_COLS.map(([,w])=>{const l=x;x+=w;return l;});
   const stc=i=>`class="st" style="left:${left[i]}px;width:${PV_COLS[i][1]}px;min-width:${PV_COLS[i][1]}px;max-width:${PV_COLS[i][1]}px"`;
   $('#thP').innerHTML='<tr>'+PV_COLS.map(([n],i)=>`<th ${stc(i)}>${n}</th>`).join('')+ms.map(m=>`<th class="m">${mesCurto(m)}</th>`).join('')+'</tr>';
-  const cel=(v,f)=>`<td class="n">${v===undefined||v===null?'':f(v)}</td>`;
   let h='';
   bl.forEach((b,bi)=>{
-    const z=bi%2?' z':'',base=(vis,orc)=>`<td ${stc(0)}>${orc?b.dia:''}</td><td ${stc(1)}>${orc?b.tipo:''}</td><td ${stc(2)} title="${esc(b.categoria)}">${orc?esc(b.categoria):''}</td><td ${stc(3)} title="${esc(b.descricao)}">${orc?esc(b.descricao):''}</td><td ${stc(4)} class="st vis" style="left:${left[4]}px;width:${PV_COLS[4][1]}px;min-width:${PV_COLS[4][1]}px;max-width:${PV_COLS[4][1]}px">${vis}</td>`;
-    const forma=t=>`<td ${stc(5)}>${t}</td>`;
-    const dif=m=>{if(b.real[m]===undefined)return '<td class="n"></td>';const d=b.orcPago[m]-b.real[m];return `<td class="n">${chip(d,b.orcPago[m]?d/b.orcPago[m]:null,b.tipo==='Despesa',PCT2)}</td>`;};
-    let primeira=true;
-    const lin=(nome,vis,fn,rot)=>{if(!passa('visao',nome))return;h+=`<tr data-b="${bi}" class="tp-${b.tipo}${primeira?' b1':''}${z}${nome==='ORÇADO vs REAL'?' v':nome==='REAL'?' lr':' lo'}">${base(vis?`<i class="vp">${vis}</i>`:'',nome!=='ORÇADO vs REAL')}${rot}${ms.map(fn).join('')}</tr>`;primeira=false;};
-    lin('ORÇADO','ORÇADO',m=>cel(b.orc[m],fmtN),forma(esc(b.forma)));
-    lin('REAL','REAL',m=>cel(b.real[m],fmtN),forma(esc(b.forma)));
-    lin('ORÇADO vs REAL','',dif,forma('ORÇADO vs REAL')); // variação numa só linha: orçado − real; verde = favorável
+    const st=(i,t,ttl)=>`<td ${stc(i)}${ttl?` title="${esc(ttl)}"`:''}>${t}</td>`;
+    h+=`<tr class="tp-${b.tipo}${bi%2?' z':''}">${st(0,b.dia)}${st(1,b.tipo)}${st(2,esc(b.categoria),b.categoria)}${st(3,esc(b.descricao),b.descricao)}${st(4,esc(b.forma))}`
+      +ms.map(m=>{const c=b.cel[m];if(!c)return '<td class="n"></td>';return `<td class="n${c.o?' o':''}"${c.o&&c.pago?` title="Pago ${BRL.format(c.pago)} + Orçado ${BRL.format(c.orc)}"`:''}>${fmtN(c.pago+c.orc)}</td>`;}).join('')+'</tr>';
   });
   $('#tbP').innerHTML=h||`<tr><td colspan="${PV_COLS.length+ms.length}" class="muted" style="padding:14px">Nenhum lançamento nos filtros atuais.</td></tr>`;
 }
 
-$('#tbP').addEventListener('mouseover',e=>{ // destaca as 3 linhas do bloco sob o mouse
-  const tr=e.target.closest('tr[data-b]');if(tr&&tr.classList.contains('hb'))return;
-  document.querySelectorAll('#tbP tr.hb').forEach(r=>r.classList.remove('hb'));
-  if(tr)document.querySelectorAll(`#tbP tr[data-b="${tr.dataset.b}"]`).forEach(r=>r.classList.add('hb'));
-});
-$('#tbP').addEventListener('mouseleave',()=>document.querySelectorAll('#tbP tr.hb').forEach(r=>r.classList.remove('hb')));
 
 /* ---- análises ---- */
 function renderAnalises(){
-  const rows=filtradas(),hoje=hojeISO(),venc=vencidos(rows,hoje),est=estouros(rows),cr=crescimento(rows);
-  const li=(t,sub,v,bad)=>`<li><span>${esc(t)}${sub?`<small>${sub}</small>`:''}</span><span class="v${bad?' bad':''}">${v}</span></li>`;
+  const rows=filtradas(),hoje=hojeISO(),venc=vencidos(rows,hoje),cr=crescimento(rows),vr=variacoes(filtradas(['meses','sel']),hoje);
+  const li=(t,sub,v,bad)=>`<li><span>${esc(t)}${sub?`<small>${sub}</small>`:''}</span><span class="v${bad?' '+(bad===true?'bad':bad):''}">${v}</span></li>`;
   const dd=d=>d.slice(8)+'/'+d.slice(5,7);
   const c1=`<div class="ins"><span class="pill bad">Atenção</span><h3>Vencidos pendentes</h3>`+(venc.length
-    ?`<p><b>${venc.length}</b> lançamento(s) com data vencida e sem Real, somando <b>${BRL.format(sum(venc,r=>r.orcado))}</b> de orçado.</p><ul>${venc.slice(0,8).map(r=>li(r.descricao,`${dd(r.data)} · ${esc(r.categoria)} · ${esc(r.forma)}`,BRL.format(r.orcado),true)).join('')}</ul>${venc.length>8?`<p style="margin-top:6px">e mais ${venc.length-8}…</p>`:''}`
-    :'<p>Tudo em dia: nenhum lançamento vencido sem Real.</p>')+'</div>';
-  const c2=`<div class="ins"><span class="pill warn">Estouro</span><h3>Maiores estouros</h3>`+(est.length
-    ?`<p>Despesas pagas mais de 10% acima do orçado, no período filtrado.</p><ul>${est.map(o=>li(o.d,`${esc(o.c)} · Real ${BRL.format(o.real)} × Orçado ${BRL.format(o.orc)}`,`+${BRL.format(o.var)}${o.pct===null?'':` (+${PCT.format(o.pct)})`}`,true)).join('')}</ul>`
-    :'<p>Nenhuma despesa paga mais de 10% acima do orçado no período filtrado.</p>')+'</div>';
+    ?`<p><b>${venc.length}</b> lançamento(s) com data vencida e ainda Orçado, somando <b>${BRL.format(sum(venc,r=>r.valor))}</b>.</p><ul>${venc.slice(0,8).map(r=>li(r.descricao,`${dd(r.data)} · ${esc(r.categoria)} · ${esc(r.forma)}`,BRL.format(r.valor),true)).join('')}</ul>${venc.length>8?`<p style="margin-top:6px">e mais ${venc.length-8}…</p>`:''}`
+    :'<p>Tudo em dia: nenhum lançamento vencido com status Orçado.</p>')+'</div>';
+  const sg=o=>`${o.var>0?'+':'−'}${BRL.format(Math.abs(o.var))} (${o.var>0?'+':'−'}${PCT.format(Math.abs(o.pct))})`;
+  const c2=`<div class="ins"><span class="pill warn">Estouro</span><h3>Maiores estouros</h3>`+(vr.lista.length
+    ?`<p>Pago em ${mesBR(vr.ym)} contra ${mesBR(vr.ant)}: itens com variação acima de 10%, para mais ou para menos.</p><ul>${vr.lista.map(o=>li(o.d,`${esc(o.c)} · Atual ${BRL.format(o.atual)} × anterior ${BRL.format(o.ant)}`,sg(o),o.var>0?'bad':'good')).join('')}</ul>`
+    :`<p>Nenhum item pago em ${mesBR(vr.ym)} variou mais de 10% contra ${mesBR(vr.ant)}.</p>`)+'</div>';
   const c3=`<div class="ins"><span class="pill info">Tendência</span><h3>Categorias que mais crescem</h3>`+(!cr.ok
-    ?'<p>Dados insuficientes: é preciso ao menos 2 meses fechados (todos os lançamentos de despesa com Real) no filtro atual.</p>'
+    ?'<p>Dados insuficientes: é preciso ao menos 2 meses fechados (todos os lançamentos de despesa Pagos) no filtro atual.</p>'
     :(cr.lista.length?`<p>${mesBR(cr.ult)} (último mês fechado) contra a média de ${cr.ant.map(mesBR).join(', ')}.</p><ul>${cr.lista.map(o=>li(o.c,`Atual ${BRL.format(o.atual)} × média ${BRL.format(o.media)}`,`+${BRL.format(o.var)}${o.pct===null?'':` (+${PCT.format(o.pct)})`}`,true)).join('')}</ul>`
       :`<p>Nenhuma categoria cresceu em ${mesBR(cr.ult)} contra a média anterior.</p>`))+'</div>';
   $('#insights').innerHTML=c1+c2+c3;
@@ -1252,7 +1299,7 @@ $('#btnReset').onclick=async()=>{
 
 /* ---- Google Sheets (passo 5): a planilha é a base; o navegador guarda a última cópia lida (funciona offline) ---- */
 const NV=(()=>{
-  const LS='fin_google',LN='fin_nuvem',URL_='https://sheets.googleapis.com/v4/spreadsheets/',CAB=['ID','Data','Tipo','Categoria','Descrição','Forma','Orçado','Real'];
+  const LS='fin_google',LN='fin_nuvem',URL_='https://sheets.googleapis.com/v4/spreadsheets/',CAB=['ID','Data','Tipo','Categoria','Descrição','Forma','Valor','Status'];
   const ler=k=>{try{return JSON.parse(localStorage.getItem(k))||{};}catch(e){return {};}};
   const gravar=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
   let cfg=ler(LS),est=ler(LN),tok=null,tokExp=0,tc=null,busy=false,timer=null,msg='';
@@ -1318,14 +1365,16 @@ const NV=(()=>{
     return out;
   }
   function montar(by){ // linhas da planilha -> DB (sem gravar)
-    const L=by['Lançamentos']||[],cab=(L[0]||[]).map(norm),ix=n=>cab.indexOf(norm(n)),tem=ix('data')>=0,ic=['id','data','tipo','categoria','descricao','forma','orcado','real'].map((n,i)=>{const j=ix(n);return j>=0?j:tem?-1:i;});
+    const L=by['Lançamentos']||[],cab=(L[0]||[]).map(norm),ix=n=>cab.indexOf(norm(n)),tem=ix('data')>=0,antigo=ix('valor')<0&&ix('orcado')>=0,ic=['id','data','tipo','categoria','descricao','forma',antigo?'orcado':'valor',antigo?'real':'status'].map((n,i)=>{const j=ix(n);return j>=0?j:tem?-1:i;});
     let ign=0,semId=0;const lanc=[],ids=new Set();
     L.slice(1).forEach(r=>{
       const g=i=>ic[i]<0?'':r[ic[i]],d=ISO(g(1)),tp=norm(g(2)),tipo=tp==='receita'?'Receita':tp==='despesa'?'Despesa':null;
       if(!d||!tipo||!String(g(3)||'').trim()||!String(g(4)||'').trim()||!String(g(5)||'').trim()){if(r.some(c=>c!==''&&c!=null))ign++;return;}
-      const o=NUM(g(6));if(o===null||isNaN(o)){ign++;return;}
-      const re=NUM(g(7));
-      lanc.push({id:String(g(0)||'').trim(),data:d,tipo,categoria:String(g(3)).trim(),descricao:String(g(4)).trim(),forma:String(g(5)).trim(),orcado:o,real:re===null||isNaN(re)?null:re});
+      let valor=NUM(g(6)),status;
+      if(antigo){const re=NUM(g(7)),pago=re!==null&&!isNaN(re);if(pago)valor=re;status=pago?'Pago':'Orçado';} // com Real = Pago (valor = Real); sem Real = Orçado
+      else status=norm(g(7))==='pago'?'Pago':'Orçado';
+      if(valor===null||isNaN(valor)){ign++;return;}
+      lanc.push({id:String(g(0)||'').trim(),data:d,tipo,categoria:String(g(3)).trim(),descricao:String(g(4)).trim(),forma:String(g(5)).trim(),valor,status});
     });
     lanc.forEach(r=>{if(r.id&&!ids.has(r.id))ids.add(r.id);else r.id='';});
     let n=[...ids].reduce((a,x)=>Math.max(a,Number(x.slice(1))||0),0);
@@ -1335,11 +1384,11 @@ const NV=(()=>{
     const formas=(by.Formas||[]).slice(1).map(r=>String(r[0]||'').trim()).filter(Boolean);
     ['Pix','Cartão de Crédito'].forEach(f=>{if(!formas.includes(f))formas.push(f);});
     lanc.forEach(r=>{if(!formas.includes(r.forma))formas.push(r.forma);});
-    return {dados:{lanc,cad,formas},ign,semId};
+    return {dados:{lanc,cad,formas},ign,semId,antigo};
   }
   function aplicar(dados){DB=dados;store.save(DB);prune();renderTudo();}
   async function empurrar(info){ // grava tudo e sobe a revisão
-    const rev=info.rev+1,l=[CAB,...DB.lanc.map(r=>[r.id,serie(r.data),r.tipo,r.categoria,r.descricao,r.forma,r.orcado,r.real===null?'':r.real])];
+    const rev=info.rev+1,l=[CAB,...DB.lanc.map(r=>[r.id,serie(r.data),r.tipo,r.categoria,r.descricao,r.forma,r.valor,r.status])];
     const data=[{range:'Lançamentos!A1:H'+l.length,values:l},{range:'Cadastros!A1:C'+(DB.cad.length+1),values:[['Tipo','Categoria','Descrição'],...DB.cad.map(c=>[c.tipo,c.categoria,c.descricao])]},
       {range:'Formas!A1:A'+(DB.formas.length+1),values:[['Forma'],...DB.formas.map(f=>[f])]},{range:'Meta!A1:B2',values:[['revisao',rev],['atualizado',new Date().toISOString()]]}];
     await garanteAbas(info);
@@ -1351,12 +1400,13 @@ const NV=(()=>{
     const falta=['Lançamentos','Cadastros','Formas','Meta'].filter(n=>!aba(info.abas,n));
     if(falta.length){await api(':batchUpdate',{method:'POST',body:JSON.stringify({requests:falta.map(title=>({addSheet:{properties:{title}}}))})});falta.forEach(title=>info.abas.push({title}));}
   }
+  const reqStatus=sid=>({setDataValidation:{range:{sheetId:sid,startRowIndex:1,startColumnIndex:7,endColumnIndex:8},rule:{condition:{type:'ONE_OF_LIST',values:[{userEnteredValue:'Orçado'},{userEnteredValue:'Pago'}]},showCustomUi:true,strict:false}}});
   async function criarEstrutura(info){
     await garanteAbas(info);
     const m=await api('?fields=sheets.properties(sheetId,title)'),sl=aba(m.sheets.map(x=>x.properties),'Lançamentos');
     await api('/values:batchUpdate',{method:'POST',body:JSON.stringify({valueInputOption:'RAW',data:[{range:'Lançamentos!A1:H1',values:[CAB]},{range:'Cadastros!A1:C1',values:[['Tipo','Categoria','Descrição']]},{range:'Formas!A1:A3',values:[['Forma'],['Pix'],['Cartão de Crédito']]},{range:'Meta!A1:B1',values:[['revisao',0]]}]})});
     const fm=(c0,c1,type,pattern)=>({repeatCell:{range:{sheetId:sl.sheetId,startRowIndex:1,startColumnIndex:c0,endColumnIndex:c1},cell:{userEnteredFormat:{numberFormat:{type,pattern}}},fields:'userEnteredFormat.numberFormat'}});
-    await api(':batchUpdate',{method:'POST',body:JSON.stringify({requests:[fm(1,2,'DATE','dd/mm/yyyy'),fm(6,8,'NUMBER','#,##0.00'),{updateSheetProperties:{properties:{sheetId:sl.sheetId,gridProperties:{frozenRowCount:1}},fields:'gridProperties.frozenRowCount'}}]})});
+    await api(':batchUpdate',{method:'POST',body:JSON.stringify({requests:[fm(1,2,'DATE','dd/mm/yyyy'),fm(6,7,'NUMBER','#,##0.00'),reqStatus(sl.sheetId),{updateSheetProperties:{properties:{sheetId:sl.sheetId,gridProperties:{frozenRowCount:1}},fields:'gridProperties.frozenRowCount'}}]})});
   }
   async function sync(manual){
     if(!ativo()||busy)return;
@@ -1371,7 +1421,19 @@ const NV=(()=>{
         busy=true;status();await criarEstrutura(info);info=await ler_();
       }
       const primeira=est.rev===undefined||est.rev===null||est.cfg!==cfg.sid;
-      const {dados,ign,semId}=montar(info.by);
+      const {dados,ign,semId,antigo}=montar(info.by);
+      if(antigo){ // planilha ainda em Orçado/Real: converte só com a sua confirmação
+        if(!manual){busy=false;msg='Planilha no formato antigo (Orçado/Real): clique em "Sincronizar agora" para converter.';status();return;}
+        busy=false;
+        if(!await confirmar('Converter a planilha para Valor + Status',`A planilha está no formato antigo (colunas <b>Orçado</b> e <b>Real</b>), com <b>${dados.lanc.length}</b> lançamento(s).<br><br>Cada linha passa a ter <b>Valor</b> e <b>Status</b>: com Real vira <b>Pago</b> (valor = Real); sem Real vira <b>Orçado</b> (valor = Orçado). O orçado original das linhas já pagas é perdido.<br><br><b>Recomendado:</b> antes, no Google Sheets, faça uma cópia (Arquivo → Fazer uma cópia).`,'Converter'))return aviso('Conversão cancelada: a planilha continua no formato antigo.');
+        busy=true;status();
+        const sujoAntes=est.sujo;
+        if(primeira||!sujoAntes)aplicar(dados);
+        est={rev:info.rev,sig:info.sig,sujo:true,ultima:new Date().toISOString(),cfg:cfg.sid};salvaEst();
+        await empurrar(info);
+        try{const m=await api('?fields=sheets.properties(sheetId,title)'),sl=aba(m.sheets.map(x=>x.properties),'Lançamentos');await api(':batchUpdate',{method:'POST',body:JSON.stringify({requests:[reqStatus(sl.sheetId)]})});}catch(e){}
+        busy=false;msg='';aviso(`Planilha convertida: ${dados.lanc.length} lançamento(s) em Valor + Status.`);return;
+      }
       if(primeira){
         busy=false;
         if(!await confirmar('Carregar da planilha',`A planilha tem <b>${dados.lanc.length}</b> lançamento(s). Os dados guardados neste navegador (inclusive os fictícios) serão <b>substituídos</b> pelos da planilha.`,'Carregar'))return aviso('Conexão cancelada.');
@@ -1412,7 +1474,7 @@ const NV=(()=>{
   return {sujar,sync,status,ativo,init(){status();if(ativo())sync(false);}};
 })();
 
-window.APP={semaforo,gerar,diaDoMes,ultimoDia,continuacao,filtradas,alvoLote,parseMoney,fmtN,kpis,estouros,crescimento,vencidos,blocosPainel,mediaSugerida,drillP,voltarD,FD:()=>FD,FP:()=>FP,listaCats,listaDesc,drill,db:()=>DB,F:()=>F};
+window.APP={semaforo,gerar,diaDoMes,ultimoDia,continuacao,filtradas,alvoLote,parseMoney,fmtN,kpis,variacoes,crescimento,vencidos,blocosPainel,mediaSugerida,drillP,voltarD,FD:()=>FD,FP:()=>FP,listaCats,listaDesc,drill,db:()=>DB,F:()=>F};
 montarFiltros();ajustaAltura();iconeTema();
 {const hm=hojeISO().slice(0,7);if(todosMeses().includes(hm))F.meses=new Set([hm]);} // abre só com o mês atual
 renderTudo();NV.init();
