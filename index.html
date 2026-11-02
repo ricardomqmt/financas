@@ -398,6 +398,7 @@ html[data-theme="dark"]{--bad:#f28b90}
   <div class="charts" id="charts">
     <div class="card gc"><div class="gh"><h3 id="g1t">Pago + Orçado por ano · Despesas</h3><span class="leg"><i style="background:var(--bad)"></i>Pago<i style="background:color-mix(in srgb,var(--bad) 30%,transparent);border:1px solid var(--bad)"></i>Orçado</span></div><div id="g1"></div></div>
     <div class="card gc"><div class="gh"><h3 id="g2t">Receita × Despesa e saldo por ano</h3><span class="leg"><i style="background:var(--good)"></i>Receita<i style="background:var(--bad)"></i>Despesa<i style="background:var(--orc)"></i>Saldo</span></div><div id="g2"></div></div>
+    <div class="card gc"><div class="gh"><h3 id="g4t">Receitas por categoria</h3><span class="leg"><button class="btn" id="g4back" hidden>◂ Categorias</button><i style="background:var(--good)"></i>Pago<i style="background:color-mix(in srgb,var(--good) 30%,transparent);border:1px solid var(--good)"></i>Orçado</span></div><div id="g4"></div></div>
     <div class="card gc"><div class="gh"><h3 id="g3t">Despesas por categoria</h3><span class="leg"><button class="btn" id="g3back" hidden>◂ Categorias</button><i style="background:var(--bad)"></i>Pago<i style="background:color-mix(in srgb,var(--bad) 30%,transparent);border:1px solid var(--bad)"></i>Orçado</span></div><div id="g3"></div></div>
     <div class="card gc"><div class="gh"><h3 id="g5t">Taxa de poupança por ano</h3><span class="leg">(receita − despesa) ÷ receita</span></div><div id="g5"></div></div>
   </div>
@@ -1163,11 +1164,12 @@ function g2(CW,a){ // Receita × Despesa (barras) + Saldo (linha), valores proje
   return svgS(W,H,L,defs,c.bands+e.svg+bars+linha+c.lab+c.hit);
 }
 
-function g3(W,a){ // Despesas por categoria; clicar numa categoria abre as descrições dela
-  const nivelD=F.categoria!==null&&F.categoria.size===1,k=nivelD?'descricao':'categoria';
-  $('#g3t').textContent=nivelD?'Despesas de '+[...F.categoria][0]:'Despesas por categoria';
-  $('#g3back').hidden=!nivelD;
-  const rows=filtradas([k]).filter(r=>r.tipo==='Despesa'),mp=new Map();
+function gCat(W,a,tipo,n,cor){ // Despesas/Receitas por categoria; clicar numa categoria abre as descrições dela
+  const T0=tipo==='Despesa'?'Despesas':'Receitas',cats=listaCats(tipo),sel=F.categoria,fora=sel!==null&&![...sel].some(c=>cats.includes(c));
+  const nivelD=!fora&&sel!==null&&sel.size===1,k=nivelD?'descricao':'categoria',fk=fora?null:F[k];
+  $('#g'+n+'t').textContent=nivelD?T0+' de '+[...sel][0]:T0+' por categoria';
+  $('#g'+n+'back').hidden=!nivelD;
+  const rows=filtradas(fora?['categoria','descricao']:[k]).filter(r=>r.tipo===tipo),mp=new Map();
   rows.forEach(r=>{(mp.get(r[k])||mp.set(r[k],[]).get(r[k])).push(r);});
   const it=[...mp].map(([n,l])=>({n,...grp(l)})).sort((x,y)=>y.proj-x.proj).slice(0,12);
   if(!it.length)return vazio();
@@ -1175,17 +1177,19 @@ function g3(W,a){ // Despesas por categoria; clicar numa categoria abre as descr
   const grade=sc.t.map(v=>`<line class="glg" x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H-B}"/><text class="ax" x="${x(v)}" y="${H-8}" text-anchor="middle">${fmtK(v)}</text>`).join('');
   let linhas='',hit='';
   it.forEach((o,i)=>{
-    const y0=T+i*rh,yB=y0+(rh-bh)/2,dim=F[k]===null||F[k].has(o.n)?'':'dim';
+    const y0=T+i*rh,yB=y0+(rh-bh)/2,dim=fk===null||fk.has(o.n)?'':'dim';
     const nome=o.n.length>44?o.n.slice(0,43)+'…':o.n;
     linhas+=`<g class="${dim}"><text class="axl" x="${L-8}" y="${y0+rh/2+4}" text-anchor="end">${esc(nome)}</text>`
-      +`<path ${cls('glw',i,a,'x')} d="${bph(L,yB,x(o.pago)-L,bh,o.orc>0.005?0:5)}" fill="url(#g3r)"/>`
-      +`<path ${cls('glw',i,a,'x')} d="${bph(x(o.pago),yB,x(o.proj)-x(o.pago),bh,5)}" fill="url(#g3p)" stroke="var(--bad)" stroke-opacity=".45"/>`
+      +`<path ${cls('glw',i,a,'x')} d="${bph(L,yB,x(o.pago)-L,bh,o.orc>0.005?0:5)}" fill="url(#g${n}r)"/>`
+      +`<path ${cls('glw',i,a,'x')} d="${bph(x(o.pago),yB,x(o.proj)-x(o.pago),bh,5)}" fill="url(#g${n}p)" stroke="var(${cor})" stroke-opacity=".45"/>`
       +`<text class="vl" x="${x(o.proj)+6}" y="${y0+rh/2+4}">${NF0.format(o.proj)}</text></g>`;
     hit+=`<rect class="hit" x="0" y="${y0}" width="${W}" height="${rh}" data-k="${k}" data-v="${esc(o.n)}" data-tip="${esc(`${o.n}\nPago:    ${BRL.format(o.pago)}\nOrçado:  ${BRL.format(o.orc)}\nTotal:   ${BRL.format(o.proj)}`)}"/>`;
   });
-  const defs=gd('g3r','var(--bad)',.6,1,1)+gd('g3p','var(--bad)',.12,.34,1);
+  const defs=gd('g'+n+'r','var('+cor+')',.6,1,1)+gd('g'+n+'p','var('+cor+')',.12,.34,1);
   return svg(W,H,defs,grade+linhas+hit);
 }
+
+const g3=(W,a)=>gCat(W,a,'Despesa','3','--bad'),g4=(W,a)=>gCat(W,a,'Receita','4','--good');
 
 function g5(CW,a){ // Taxa de poupança = (receita − despesa) ÷ receita, valores projetados
   const rows=filtradas('sel'),ms=uniq(rows.map(r=>r.data.slice(0,gl()))).sort();
@@ -1210,14 +1214,14 @@ function renderGraficos(){
   const a=animarGraf;animarGraf=false;
   const u=F.gran==='M'?'mês':'ano';
   $('#g1t').textContent=`Pago + Orçado por ${u} · Despesas`;$('#g2t').textContent=`Receita × Despesa e saldo por ${u}`;$('#g5t').textContent=`Taxa de poupança por ${u}`;
-  [['g1',g1],['g2',g2],['g3',g3],['g5',g5]].forEach(([id,fn])=>{const el=$('#'+id);el.innerHTML=fn(Math.max(300,el.clientWidth||560),a);});
+  [['g1',g1],['g2',g2],['g4',g4],['g3',g3],['g5',g5]].forEach(([id,fn])=>{const el=$('#'+id);el.innerHTML=fn(Math.max(300,el.clientWidth||560),a);});
   document.querySelectorAll('#charts .sc').forEach(sc=>{sc.scrollLeft=scFim?sc.scrollWidth:scX;sc.onscroll=()=>{ // os 3 gráficos temporais rolam juntos
     if(sc.dataset.sync)return;scX=sc.scrollLeft;scFim=sc.scrollWidth-sc.clientWidth-sc.scrollLeft<4;
     document.querySelectorAll('#charts .sc').forEach(o=>{if(o!==sc&&o.scrollLeft!==sc.scrollLeft){o.dataset.sync=1;o.scrollLeft=sc.scrollLeft;requestAnimationFrame(()=>delete o.dataset.sync);}});};});
 }
 let scX=0,scFim=true; // posição da rolagem; começa no período mais recente
 $('#charts').addEventListener('click',e=>{const t=e.target.closest('[data-k]');if(!t)return;t.dataset.k==='per'?drillP(t.dataset.v):drill(t.dataset.k,t.dataset.v);});
-$('#g3back').onclick=voltaCat;
+$('#g3back').onclick=voltaCat;$('#g4back').onclick=voltaCat;
 $('#charts').addEventListener('mousemove',e=>{
   const tp=$('#tip'),t=e.target.closest('[data-tip]');
   if(!t){tp.style.display='none';return;}
