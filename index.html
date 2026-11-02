@@ -335,6 +335,13 @@ html[data-theme="dark"] .gc{background:linear-gradient(160deg,var(--card),#232a3
 html[data-theme="dark"]{--bad:#f28b90}
 header .btn[hidden]{display:none}
 .ms-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}.ms-foot .btn{min-width:84px;height:32px;padding:0 14px}
+/* Novo lançamento: janela maior e letras maiores */
+#dlgNovo{max-width:760px;width:94%;box-sizing:border-box;padding:24px 28px;font-size:16px}@media(max-width:768px){#dlgNovo{padding:16px 14px;max-height:92dvh;overflow:auto}#dlgNovo .grid{grid-template-columns:minmax(0,1fr)}#dlgNovo .actions{flex-wrap:wrap}#dlgNovo .actions .btn{flex:1}}
+#dlgNovo h3{font-size:22px;margin-bottom:14px}
+#dlgNovo label{font-size:15px;font-weight:600}
+#dlgNovo select,#dlgNovo input{font-size:16px;min-height:42px}
+#dlgNovo .hint{font-size:14px}#dlgNovo .prev{font-size:15px}
+#dlgNovo .btn{font-size:15px;min-height:42px;padding:0 20px}
 /* ===== Celular / PWA ===== */
 #tabbar,#btnFiltros,#mbk,#btnFechaFiltros{display:none}
 @media(max-width:768px),(orientation:landscape) and (max-height:500px){
