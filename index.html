@@ -336,7 +336,7 @@ html[data-theme="dark"]{--bad:#f28b90}
 header .btn[hidden]{display:none}
 /* ===== Celular / PWA ===== */
 #tabbar,#btnFiltros,#mbk,#btnFechaFiltros{display:none}
-@media(max-width:768px){
+@media(max-width:768px),(orientation:landscape) and (max-height:500px){
  body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
  header{padding:8px 12px;gap:8px}
  header nav,#btnLanc,#btnReset{display:none}
@@ -360,7 +360,7 @@ header .btn[hidden]{display:none}
  .ms-panel.open{left:8px!important;right:8px!important;width:auto!important;top:auto!important;bottom:8px!important;max-height:75dvh;z-index:70}
  .ms-items{max-height:48dvh!important}.ms-item{padding:10px 6px;font-size:15px}
  .kpis{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -12px 8px;padding:12px 12px 8px}
- .kpi{flex:0 0 74%;scroll-snap-align:start}.kpi.kf::after{display:none}
+ .kpi{flex:0 0 min(74%,320px);scroll-snap-align:start}.kpi.kf::after{display:none}
  #viewP .kpis{position:static;margin-top:0}
  .pv th:nth-child(1),.pv td:nth-child(1),.pv th:nth-child(3),.pv td:nth-child(3),.pv th:nth-child(5),.pv td:nth-child(5){display:none}
  .pv .st:nth-child(2){left:0!important;width:66px!important;min-width:66px!important;max-width:66px!important}
@@ -389,6 +389,15 @@ header .btn[hidden]{display:none}
  .cad{grid-template-columns:minmax(0,1fr)}.cad .card{min-width:0}
  .cad .row>label{flex:1 1 100%}.cad .row>label input,.cad .row>label select{width:100%;box-sizing:border-box}
  .cad .tw{overflow-x:auto;max-height:none}.cad .tw table{min-width:560px}
+}
+@media (orientation:landscape) and (max-height:500px){
+ header{position:static}
+ #tabbar{padding-top:2px;padding-bottom:calc(2px + env(safe-area-inset-bottom))}#tabbar button{min-height:40px;flex-direction:row;justify-content:center;gap:6px;font-size:12px}#tabbar svg{width:18px;height:18px}
+ body{padding-bottom:calc(52px + env(safe-area-inset-bottom))}
+ #btnFiltros{bottom:calc(60px + env(safe-area-inset-bottom));height:40px}
+ #twP{max-height:calc(100dvh - 110px)!important}
+ main#layout #filtros{max-height:92dvh}main#layout .filters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 12px}#fg_meses{grid-column:auto}
+ .gc svg{max-height:70dvh}
 }
 </style>
 </head>
@@ -718,7 +727,7 @@ function posiciona(p,tg){ // painel flutuante ao lado do gatilho (barra lateral)
   const extra=p.offsetHeight-it.offsetHeight;it.style.maxHeight=Math.max(120,Math.min(280,H-parseFloat(p.style.top)-extra-12))+'px';
 }
 const fechaPaineis=()=>document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));
-window.addEventListener('resize',fechaPaineis);$('#filtros').addEventListener('scroll',fechaPaineis);
+const MOB=()=>matchMedia('(max-width:768px),(orientation:landscape) and (max-height:500px)').matches;let _lw=innerWidth;window.addEventListener('resize',()=>{if(!MOB()||innerWidth!==_lw)fechaPaineis();_lw=innerWidth;});$('#filtros').addEventListener('scroll',()=>{if(!MOB())fechaPaineis();});
 document.addEventListener('click',e=>{if(e.target.isConnected&&!e.target.closest('.ms-panel'))document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));});
 
