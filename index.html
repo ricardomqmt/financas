@@ -334,6 +334,7 @@ html[data-theme="dark"] .gc{background:linear-gradient(160deg,var(--card),#232a3
 /* Vermelho suave do tema escuro (validado) */
 html[data-theme="dark"]{--bad:#f28b90}
 header .btn[hidden]{display:none}
+.ms-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}.ms-foot .btn{min-width:84px;height:32px;padding:0 14px}
 /* ===== Celular / PWA ===== */
 #tabbar,#btnFiltros,#mbk,#btnFechaFiltros{display:none}
 @media(max-width:768px),(orientation:landscape) and (max-height:500px){
@@ -358,7 +359,7 @@ header .btn[hidden]{display:none}
  .ms-trigger{height:44px;font-size:16px}.btn{min-height:44px}header .btn{min-height:0}
  select,input{font-size:16px}
  .ms-panel.open{left:8px!important;right:8px!important;width:auto!important;top:auto!important;bottom:8px!important;max-height:75dvh;z-index:70}
- .ms-items{max-height:48dvh!important}.ms-item{padding:10px 6px;font-size:15px}
+ .ms-items{max-height:48dvh!important}.ms-foot .btn{min-height:44px;flex:1}.ms-item{padding:10px 6px;font-size:15px}
  .kpis{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -12px 8px;padding:12px 12px 8px}
  .kpi{flex:0 0 min(74%,320px);scroll-snap-align:start}.kpi.kf::after{display:none}
  #viewP .kpis{position:static;margin-top:0}
@@ -637,7 +638,7 @@ function montarFiltros(){
   const bar=$('#filtrosBar'),ref=$('#btnLimpar');
   KS.forEach(k=>{
     const d=document.createElement('div');d.className='fg';d.id='fg_'+k;d.dataset.k=k;
-    d.innerHTML=`<span class="fl">${ROT[k]}</span><button type="button" class="btn ms-trigger"></button><div class="ms-panel"><input class="ms-search" placeholder="Pesquisar" autocomplete="off"><label class="ms-item"><input type="checkbox" class="ms-all"> (Selecionar tudo)</label><div class="ms-items"></div></div>`;
+    d.innerHTML=`<span class="fl">${ROT[k]}</span><button type="button" class="btn ms-trigger"></button><div class="ms-panel"><input class="ms-search" placeholder="Pesquisar" autocomplete="off"><label class="ms-item"><input type="checkbox" class="ms-all"> (Selecionar tudo)</label><div class="ms-items"></div><div class="ms-foot"><button type="button" class="btn ms-cancel">Cancelar</button><button type="button" class="btn pri ms-ok">OK</button></div></div>`;
     bar.insertBefore(d,ref);
   });
   const g=document.createElement('div');g.className='fg';g.id='fg_gran';g.hidden=true;
@@ -647,8 +648,9 @@ function montarFiltros(){
   n.innerHTML='<span class="fl">NAVEGAÇÃO</span><div class="navd"><button type="button" class="btn" id="btnSubir">◂ Voltar</button><span id="navTxt" class="muted"></span></div>';
   bar.insertBefore(n,ref);
 }
+let DRAFT={}; // seleção em edição (só vale ao clicar OK)
 function renderMs(k){
-  const fg=$('#fg_'+k),items=ITENS[k](),sel=F[k]===null?new Set(items):F[k],arv=k==='meses';
+  const fg=$('#fg_'+k),items=ITENS[k](),sel=DRAFT[k]||(F[k]===null?new Set(items):F[k]),arv=k==='meses';
   const q=fg.querySelector('.ms-search').value.trim().toLowerCase(),lst=fg.querySelector('.ms-items'),top=lst.scrollTop,tg=fg.querySelector('.ms-trigger');
   tg.textContent=F[k]===null?(arv?'Todas':'Todos'):F[k].size===0?'Nenhum':F[k].size===1?(arv?mesNome([...F[k]][0])+'/'+[...F[k]][0].slice(0,4):lab(k,[...F[k]][0])):`${F[k].size} de ${items.length}`;
   tg.classList.toggle('ativo',F[k]!==null);tg.title=tg.textContent;
@@ -700,23 +702,28 @@ function voltarD(){
 function setSel(k,set){F[k]=set;if(F===FD&&k==='meses')F.prev=null;aoFiltrar();}
 $('#filtros').addEventListener('change',e=>{
   const c=e.target,fg=c.closest('.fg');if(!fg||!c.closest('.ms-panel'))return;
-  const k=fg.dataset.k,items=ITENS[k](),cur=F[k]===null?new Set(items):new Set(F[k]);
-  if(c.classList.contains('ms-all'))return setSel(k,c.checked?null:new Set());
-  if(c.dataset.ym)c.checked?cur.add(c.dataset.ym):cur.delete(c.dataset.ym);
-  else if(c.dataset.ano)items.filter(m=>m.startsWith(c.dataset.ano)).forEach(m=>c.checked?cur.add(m):cur.delete(m));
-  else if(c.dataset.i!==undefined){const v=items[c.dataset.i];c.checked?cur.add(v):cur.delete(v);}
-  setSel(k,cur);
+  const k=fg.dataset.k,items=ITENS[k](),cur=new Set(DRAFT[k]||(F[k]===null?items:F[k]));
+  if(c.classList.contains('ms-all'))DRAFT[k]=c.checked?new Set(items):new Set();
+  else{
+    if(c.dataset.ym)c.checked?cur.add(c.dataset.ym):cur.delete(c.dataset.ym);
+    else if(c.dataset.ano)items.filter(m=>m.startsWith(c.dataset.ano)).forEach(m=>c.checked?cur.add(m):cur.delete(m));
+    else if(c.dataset.i!==undefined){const v=items[c.dataset.i];c.checked?cur.add(v):cur.delete(v);}
+    DRAFT[k]=cur;
+  }
+  renderMs(k);
 });
 $('#filtros').addEventListener('input',e=>{if(e.target.classList.contains('ms-search'))renderMs(e.target.closest('.fg').dataset.k);});
 $('#filtros').addEventListener('click',e=>{
   const g=e.target.closest('[data-gran]');if(g&&F===FD){F.gran=g.dataset.gran;F.sel=null;F.prev=null;return aoFiltrar();}
   if(e.target.closest('#btnSubir'))return voltarD();
+  if(e.target.closest('.ms-cancel'))return fechaPaineis();
+  if(e.target.closest('.ms-ok')){const k=e.target.closest('.fg').dataset.k,set=DRAFT[k],items=ITENS[k]();fechaPaineis();if(set)setSel(k,items.every(i=>set.has(i))?null:set);return;}
   const x=e.target.dataset&&e.target.dataset.exp;
   if(x){anosFechados.has(x)?anosFechados.delete(x):anosFechados.add(x);return renderMs('meses');}
   if(e.target.classList.contains('ms-trigger')){
-    e.stopPropagation();const p=e.target.parentNode.querySelector('.ms-panel'),abrir=!p.classList.contains('open');
-    document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));
-    if(abrir){if(p.closest('#fg_meses'))anosPadrao();p.classList.add('open');posiciona(p,e.target);p.querySelector('.ms-search').focus();}
+    e.stopPropagation();const p=e.target.parentNode.querySelector('.ms-panel'),abrir=!p.classList.contains('open'),k=e.target.closest('.fg').dataset.k;
+    fechaPaineis();
+    if(abrir){DRAFT[k]=new Set(F[k]===null?ITENS[k]():F[k]);p.querySelector('.ms-search').value='';if(k==='meses')anosPadrao();else renderMs(k);p.classList.add('open');hPush();posiciona(p,e.target);p.querySelector('.ms-search').focus();}
   }
 });
 function posiciona(p,tg){ // painel flutuante ao lado do gatilho (barra lateral) ou abaixo dele (barra horizontal dos Dashboards)
@@ -726,10 +733,15 @@ function posiciona(p,tg){ // painel flutuante ao lado do gatilho (barra lateral)
   else{p.style.left=(r.right+6)+'px';p.style.top=Math.max(8,Math.min(r.top,H-p.offsetHeight-8))+'px';}
   const extra=p.offsetHeight-it.offsetHeight;it.style.maxHeight=Math.max(120,Math.min(280,H-parseFloat(p.style.top)-extra-12))+'px';
 }
-const fechaPaineis=()=>document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));
+let _hs=0,_skip=0; // entradas de histórico criadas por painéis/gaveta (o botão Voltar do celular fecha em vez de sair do app)
+const hPush=()=>{if(MOB()){history.pushState({ov:1},'');_hs++;}};
+const hPop=()=>{if(_hs>0){_hs--;_skip++;history.back();}};
+const fechaPaineis=(h=true)=>{const a=document.querySelectorAll('.ms-panel.open');DRAFT={};if(!a.length)return;a.forEach(o=>o.classList.remove('open'));if(h)hPop();};
+const fechaGaveta=(h=true)=>{if(document.body.classList.contains('fopen')){document.body.classList.remove('fopen');if(h)hPop();}};
+window.addEventListener('popstate',()=>{if(_skip){_skip--;return;}if(_hs>0)_hs--;if(document.querySelector('.ms-panel.open'))fechaPaineis(false);else fechaGaveta(false);});
 const MOB=()=>matchMedia('(max-width:768px),(orientation:landscape) and (max-height:500px)').matches;let _lw=innerWidth;window.addEventListener('resize',()=>{if(!MOB()||innerWidth!==_lw)fechaPaineis();_lw=innerWidth;});$('#filtros').addEventListener('scroll',()=>{if(!MOB())fechaPaineis();});
-document.addEventListener('click',e=>{if(e.target.isConnected&&!e.target.closest('.ms-panel'))document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.ms-panel.open').forEach(o=>o.classList.remove('open'));});
+document.addEventListener('click',e=>{if(e.target.isConnected&&!e.target.closest('.ms-panel'))fechaPaineis();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')fechaPaineis();});
 
 const SEMA_TIT={Verde:'No prazo',Amarelo:'Vence hoje',Vermelho:'Vencido'};
 const semHtml=r=>{const c=semaforo(r);return c?`<span class="sem sem-${c}" title="${SEMA_TIT[c]}">●</span>`:'';};
@@ -777,7 +789,7 @@ function trocarAba(a){
   $('#filtros').hidden=a==='C';$('#layout').classList.toggle('sem-filtros',a==='C');
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.aba===a));
   $('#btnLanc').classList.toggle('on',a==='L');
-  document.querySelectorAll('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.t===a));document.body.classList.remove('fopen');
+  document.querySelectorAll('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.t===a));fechaPaineis();fechaGaveta();
   if(a==='C')renderCad();else renderTudo();
 }
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>trocarAba(b.dataset.aba));
@@ -1558,8 +1570,8 @@ montarFiltros();ajustaAltura();iconeTema();
 {const hm=hojeISO().slice(0,7);if(todosMeses().includes(hm))F.meses=new Set([hm]);} // abre só com o mês atual
 renderTudo();NV.init();
 document.querySelectorAll('#tabbar button').forEach(b=>b.onclick=()=>trocarAba(b.dataset.t));
-$('#btnFiltros').onclick=()=>document.body.classList.add('fopen');
-$('#btnFechaFiltros').onclick=$('#mbk').onclick=()=>document.body.classList.remove('fopen');
+$('#btnFiltros').onclick=()=>{if(!document.body.classList.contains('fopen')){document.body.classList.add('fopen');hPush();}};
+$('#btnFechaFiltros').onclick=$('#mbk').onclick=()=>{fechaPaineis();fechaGaveta();};
 if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
