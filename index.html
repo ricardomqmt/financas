@@ -350,6 +350,22 @@ header .btn[hidden]{display:none}
 #dlgNovo .btn{font-size:14px;min-height:38px}
 header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700;letter-spacing:.04em;font-size:13px}
 @media(max-width:1699px){header nav button,header .btn:not(.ico){font-size:12px;letter-spacing:.02em}}
+/* Aba Manual */
+.man{max-width:920px;margin:0 auto;font-size:15px;line-height:1.55}
+.man h2{margin:4px 0 6px;font-size:22px}.man .mu{color:var(--muted);margin:0 0 14px}
+.man details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;box-shadow:var(--card-shadow);overflow:hidden}
+.man summary{cursor:pointer;padding:13px 16px;font-weight:700;font-size:16px;list-style:none;display:flex;align-items:center;gap:10px;min-height:44px}
+.man summary::-webkit-details-marker{display:none}
+.man summary::before{content:"▸";color:var(--orc);transition:transform .15s}.man details[open] summary::before{transform:rotate(90deg)}
+.man details>*:not(summary){margin-left:18px;margin-right:18px}.man details>*:last-child{margin-bottom:16px}
+.man ol,.man ul{padding-left:22px}.man li{margin:6px 0}.man li ul{margin:4px 0}
+.man code{background:color-mix(in srgb,var(--orc) 16%,transparent);border-radius:6px;padding:1px 6px;font-size:13.5px;word-break:break-all}
+.man .tip{background:color-mix(in srgb,var(--orc) 12%,transparent);border-left:4px solid var(--orc);border-radius:8px;padding:9px 12px}
+.man .mt{width:100%;border-collapse:collapse;margin:8px 0;font-size:14px}
+.man .mt th,.man .mt td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+.man .mt th{background:var(--th-bg);color:var(--th-fg)}
+@media(max-width:768px){.man{font-size:15px}.man details>*:not(summary){margin-left:12px;margin-right:12px}.man .mt{display:block;overflow-x:auto}#tabbar button{font-size:9.5px}}
+#btnReset .rl2{display:none}@media(min-width:1900px){#btnReset .rl2{display:inline}}@media(max-width:1899px){header .btn .hi,nav .hi{display:none}header .btn,nav button{gap:0;font-size:12px;letter-spacing:.02em}}
 /* ===== Celular / PWA ===== */
 #tabbar,#btnFiltros,#mbk,#btnFechaFiltros{display:none}
 @media(max-width:768px),(orientation:landscape) and (max-height:500px){
@@ -426,11 +442,12 @@ header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700
     <button data-aba="D"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</button>
     <button data-aba="A"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>Análises</button>
     <button data-aba="C"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>Cadastros</button>
+    <button data-aba="M"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6M9 12h6"/></svg>Manual</button>
   </nav>
   <span class="sp"></span>
   <button class="btn" id="btnLanc"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lançamentos</button>
   <button class="btn" id="btnGoogle"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.9A6 6 0 0 1 18 9a4.5 4.5 0 0 1 .5 9z"/><path d="M12 12v6M9.5 15.5L12 18l2.5-2.5"/></svg>Google Sheets</button>
-  <button class="btn" id="btnReset"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Restaurar dados fictícios</button>
+  <button class="btn" id="btnReset" title="Restaurar dados fictícios"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span class="rl">Restaurar</span><span class="rl2"> dados fictícios</span></button>
   <button class="btn ico" id="btnTema" title="Alternar tema claro/escuro" aria-label="Alternar tema"></button>
 </header>
 <main id="layout">
@@ -493,13 +510,138 @@ header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700
   <p class="nota">Valores projetados = Pago + Orçado. Clique num ano para abrir os meses dele, num mês para filtrar a categoria, ou numa categoria para ver as descrições; clique de novo (ou use Voltar) para subir um nível.</p>
 </section>
 
+<section id="viewM" hidden>
+<div class="man">
+<h2>Manual — Finanças Pessoais</h2>
+<p class="mu">Guia de uso e de toda a configuração feita no Google Cloud, no GitHub e no Google Sheets. Os nomes dos menus dos sites do Google e do GitHub podem mudar com o tempo; o caminho geral continua o mesmo.</p>
+
+<details open><summary>1. Como tudo se encaixa</summary>
+<p>Três serviços gratuitos trabalham juntos:</p>
+<ul>
+<li><b>Google Sheets</b> guarda os dados (a planilha <i>Finanças Pessoais</i>, na sua conta Gmail pessoal).</li>
+<li><b>GitHub Pages</b> hospeda o app (o arquivo <code>index.html</code>) num endereço público.</li>
+<li><b>Google Cloud</b> só autoriza o app a ler e gravar na sua planilha (o app pede login Google).</li>
+</ul>
+<p>Sem internet, o app mostra a última cópia lida e sincroniza quando a conexão voltar.</p>
+<table class="mt"><tr><th>Item</th><th>Valor</th></tr>
+<tr><td>Endereço do app</td><td><code>https://ricardomqmt.github.io/financas/</code></td></tr>
+<tr><td>Repositório GitHub</td><td><code>ricardomqmt/financas</code> (público)</td></tr>
+<tr><td>Projeto Google Cloud</td><td><code>Financas</code></td></tr>
+<tr><td>Origem autorizada</td><td><code>https://ricardomqmt.github.io</code> (sem barra no final e sem <code>/financas</code>)</td></tr>
+<tr><td>Planilha</td><td><i>Finanças Pessoais</i> — abas Lançamentos, Cadastros, Formas, Meta</td></tr>
+<tr><td>Conta</td><td>Gmail pessoal (a mesma da planilha e do Google Cloud)</td></tr></table>
+</details>
+
+<details><summary>2. Uso no dia a dia</summary>
+<ul>
+<li><b>Painel Dinâmico:</b> tabela com meses em colunas. Valor em cor = Pago; valor com preenchimento = Orçado (projetado, ainda não pago).</li>
+<li><b>Dashboards:</b> gráficos Pago + Orçado, Receita × Despesa e saldo, Receitas e Despesas por categoria, Taxa de poupança. Clicar numa barra filtra; clicar de novo desfaz.</li>
+<li><b>Análises:</b> vencidos pendentes, maiores estouros (Pago do mês contra o mês anterior, acima de 10%) e categorias que mais crescem.</li>
+<li><b>Lançamentos</b> (botão no topo): edição estilo Excel. <b>Enter</b> desce para a linha de baixo; o botão <b>✓</b> marca como Pago mantendo o valor.</li>
+<li><b>Novo lançamento:</b> cria linhas <b>Orçado</b> para vários meses (dia do mês, mês inicial e quantidade). Sugere o valor pela média móvel dos 3 meses anteriores. “Limpar” zera o formulário.</li>
+<li><b>Ajuste em lote:</b> atua só nas linhas <b>Orçado</b> que estão filtradas — aplicar um valor, zerar ou “Sugerir pela média”.</li>
+<li><b>Filtros:</b> marque os itens e clique em <b>OK</b> para aplicar. <b>Cancelar</b>, clicar fora ou Esc descartam. “Selecionar tudo” + OK volta para “Todos”.</li>
+<li><b>Semáforo</b> (só linhas Orçado): verde = no prazo, amarelo = vence hoje, vermelho = vencido.</li>
+<li><b>Cadastros:</b> Tipo › Categoria › Descrição (toda descrição pertence a uma categoria e a um tipo) e Formas de pagamento. Só se exclui o que não está em uso.</li>
+<li><b>Exportar:</b> baixa em Excel as linhas filtradas da tela Lançamentos.</li>
+<li><b>Tema:</b> botão da lua/sol no topo alterna escuro e claro.</li>
+</ul>
+</details>
+
+<details><summary>3. Google Cloud — passo a passo (feito uma vez)</summary>
+<ol>
+<li>Acesse <b>console.cloud.google.com</b> entrando com o <b>Gmail pessoal</b>.</li>
+<li>No seletor de projetos (topo), clique em <b>Novo projeto</b>, nome <code>Financas</code>, e crie. Confirme que o projeto está selecionado no topo.</li>
+<li>Menu <b>APIs e serviços › Biblioteca</b> → pesquise <b>Google Sheets API</b> → <b>Ativar</b>.</li>
+<li>Menu <b>Google Auth Platform</b> (antiga “Tela de consentimento OAuth”). Se pedir “Começar”: informe o <b>nome do app</b> (ex.: Finanças Pessoais), o <b>e-mail de suporte</b> (seu Gmail), <b>Público: Externo</b> e o e-mail de contato.</li>
+<li>Em <b>Público-alvo</b>: deixe o status <b>Testando</b>. Em <b>Usuários de teste › Add users</b>, adicione o Gmail que fará login (<code>ricardo.mqmt@gmail.com</code>). Se um dia usar outra conta no celular, adicione-a aqui também.</li>
+<li>Em <b>Acesso a dados</b> (escopos): o app usa o escopo <code>https://www.googleapis.com/auth/spreadsheets</code>. Se quiser, adicione-o aqui; o app também o pede no momento do login.</li>
+<li>Em <b>Clientes › Criar cliente</b>: tipo <b>Aplicativo da Web</b>, nome livre (ex.: Financas Web).
+ <ul><li>Em <b>Origens JavaScript autorizadas</b> clique em Adicionar URI e digite <code>https://ricardomqmt.github.io</code> — sem barra no final e sem <code>/financas</code>.</li>
+ <li><b>URIs de redirecionamento:</b> deixe vazio.</li></ul></li>
+<li>Ao criar, copie o <b>ID do cliente</b> (termina em <code>.apps.googleusercontent.com</code>). O <i>segredo do cliente</i> não é usado. Guarde o ID num lugar seguro: ele é pedido uma vez em cada aparelho.</li>
+</ol>
+<p class="tip"><b>Importante:</b> com o app em modo <b>Testando</b>, o login do Google <b>expira a cada 7 dias</b>. Basta tocar no ícone de nuvem e reconectar (ver seção 7). Existe a opção de “Publicar app” para eliminar esse prazo, mas ela não foi feita.</p>
+<p class="tip">Na primeira vez, o Google mostra “app não verificado”. É esperado, porque o app é seu: clique em <b>Avançado › Acessar Finanças (não seguro)</b> e autorize.</p>
+</details>
+
+<details><summary>4. GitHub — passo a passo (feito uma vez)</summary>
+<ol>
+<li>Entre em <b>github.com</b> (usuário <code>ricardomqmt</code>).</li>
+<li><b>New repository</b>: nome <code>financas</code>, visibilidade <b>Public</b> (o GitHub Pages gratuito exige repositório público). Pode criar vazio.</li>
+<li>Na página do repositório: <b>Add file › Upload files</b>. Arraste os <b>5 arquivos</b> e clique em <b>Commit changes</b>:
+ <ul><li><code>index.html</code> — o app inteiro</li><li><code>manifest.json</code> — dados para instalar no celular</li><li><code>sw.js</code> — permite abrir offline</li><li><code>icon-192.png</code> e <code>icon-512.png</code> — ícones do app</li></ul></li>
+<li><b>Settings › Pages</b>: em <b>Source</b> escolha <b>Deploy from a branch</b>; <b>Branch: main</b>, pasta <b>/ (root)</b>; <b>Save</b>.</li>
+<li>Aguarde cerca de 1 minuto. O endereço será <code>https://ricardomqmt.github.io/financas/</code>. Uma bolinha laranja ao lado do commit indica “publicando”; verde = pronto.</li>
+</ol>
+<p class="tip"><b>Atualizar o app:</b> quando receber um <code>index.html</code> novo, vá em Add file › Upload files, envie o arquivo <b>com o mesmo nome</b> (ele substitui o antigo) e faça o Commit. Depois recarregue com <b>Ctrl+F5</b>. Só suba os outros arquivos se eles também forem atualizados.</p>
+<p class="tip">O código fica visível por ser público, mas <b>os dados não</b>: eles ficam só na sua planilha, protegida pela sua conta Google.</p>
+</details>
+
+<details><summary>5. Google Sheets — a planilha</summary>
+<ol>
+<li>No <b>Google Sheets</b> (mesma conta), crie ou use a planilha <b>Finanças Pessoais</b>.</li>
+<li>As abas esperadas são <b>Lançamentos</b>, <b>Cadastros</b>, <b>Formas</b> e <b>Meta</b>. O app cria sozinho as que faltarem ao sincronizar.</li>
+<li>Na aba <b>Lançamentos</b>, linha 1 com os cabeçalhos exatamente nesta ordem:</li>
+</ol>
+<table class="mt"><tr><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th></tr>
+<tr><td>ID</td><td>Data</td><td>Tipo</td><td>Categoria</td><td>Descrição</td><td>Forma</td><td>Valor</td><td>Status</td></tr></table>
+<ul>
+<li><b>ID:</b> deixe em branco ao digitar linhas novas direto na planilha; o app cria (L000001…).</li>
+<li><b>Data:</b> uma data válida (formato de data do Sheets, ou dd/mm/aaaa, ou aaaa-mm-dd).</li>
+<li><b>Tipo:</b> <code>Receita</code> ou <code>Despesa</code>.</li>
+<li><b>Categoria, Descrição e Forma:</b> texto. A forma padrão é Pix ou Cartão de Crédito.</li>
+<li><b>Valor:</b> número (ex.: 1500,00).</li>
+<li><b>Status:</b> <code>Pago</code> ou <code>Orçado</code> (lista suspensa na coluna). Vazio ou outro texto = <b>Orçado</b>.</li>
+<li>Linhas incompletas (sem data, tipo, categoria, descrição, forma ou valor) são <b>ignoradas</b> pelo app, que avisa quantas foram.</li>
+<li><b>Cadastros</b>: colunas Tipo, Categoria, Descrição. <b>Formas</b>: coluna A com as formas de pagamento. <b>Meta</b>: controle interno do app (número da revisão) — não mexer.</li>
+</ul>
+<p class="tip"><b>Formato antigo:</b> se a planilha ainda tiver as colunas Orçado e Real, o app oferece converter para Valor + Status na sincronização manual (Real preenchido vira Pago; só Orçado vira Orçado). Faça uma cópia da planilha antes.</p>
+<p class="tip"><b>Backup:</b> no Sheets, <b>Arquivo › Fazer uma cópia</b> de vez em quando. O histórico de versões (<b>Arquivo › Histórico de versões</b>) também permite voltar no tempo.</p>
+</details>
+
+<details><summary>6. Conectar um aparelho e instalar no celular</summary>
+<ol>
+<li>Abra <code>https://ricardomqmt.github.io/financas/</code> no navegador.</li>
+<li>Toque/clique no ícone de <b>nuvem</b> (ou no botão <b>Google Sheets</b> no computador).</li>
+<li>Preencha o <b>ID de cliente OAuth</b> (seção 3, passo 7) e o <b>link da planilha</b> (copie a URL do navegador com a planilha aberta). Clique em <b>Salvar e conectar</b> e faça login com o Gmail pessoal, autorizando o acesso. Isso é feito <b>uma vez por aparelho</b>.</li>
+<li><b>Instalar no celular Android (Chrome):</b> abra o endereço do app › menu ⋮ › <b>Instalar app</b> (ou “Instalar e criar atalho › Instalar”). O ícone aparece na tela inicial.</li>
+<li>Se não aparecer a opção de instalar: feche e reabra o Chrome, espere alguns segundos ou limpe os dados do site e tente de novo.</li>
+</ol>
+<p class="tip">O app funciona com o celular deitado e aceita zoom. No celular, o botão <b>Filtros</b> abre a gaveta de filtros e o botão <b>Voltar</b> do aparelho fecha primeiro a lista e a gaveta, sem sair do app.</p>
+</details>
+
+<details><summary>7. Rotina e manutenção</summary>
+<ul>
+<li><b>A cada ~7 dias</b> o login expira (modo Testando): toque na nuvem › <b>Salvar e conectar</b> e faça login novamente. Nada é perdido.</li>
+<li>A sincronização é automática: dois segundos depois de cada edição, ao voltar para o app e a cada 90 segundos. Use <b>Sincronizar agora</b> na janela do Google Sheets para forçar, para resolver um conflito ou para converter a planilha do formato antigo.</li>
+<li>Se você e outro aparelho editarem ao mesmo tempo, o app mostra uma janela de <b>conflito</b> para escolher qual versão manter.</li>
+<li>Pode editar direto na planilha; o app detecta a mudança na próxima sincronização automática.</li>
+<li><b>Atualizar o app:</b> seção 4 (subir o novo <code>index.html</code>). No celular, abra o app duas vezes para pegar a versão nova.</li>
+<li><b>Outra conta do Google no celular:</b> adicione-a como usuário de teste no Google Cloud (seção 3, passo 5) e compartilhe a planilha com ela.</li>
+</ul>
+</details>
+
+<details><summary>8. Problemas comuns</summary>
+<table class="mt"><tr><th>Sintoma</th><th>O que fazer</th></tr>
+<tr><td>Login do Google falha ou pede de novo</td><td>Provável expiração de 7 dias. Reconecte pela nuvem. Confira se o e-mail está em <b>Usuários de teste</b>.</td></tr>
+<tr><td>Erro “origin_mismatch” / “redirect”</td><td>Revise a <b>origem autorizada</b>: <code>https://ricardomqmt.github.io</code>, sem barra no final e sem <code>/financas</code>.</td></tr>
+<tr><td>Erro de acesso à planilha (403/404)</td><td>Confira o link da planilha, se a conta logada é a dona dela e se a <b>Google Sheets API</b> está ativada no projeto <i>Financas</i>.</td></tr>
+<tr><td>App não atualizou depois de subir arquivo</td><td>Espere ~1 minuto, recarregue com <b>Ctrl+F5</b>; no celular abra o app duas vezes ou limpe os dados do site.</td></tr>
+<tr><td>Falta a opção “Instalar app” no celular</td><td>Verifique se os 5 arquivos estão no GitHub (sobretudo <code>manifest.json</code>), recarregue e aguarde.</td></tr>
+<tr><td>Linhas “ignoradas” ao sincronizar</td><td>Falta algum campo obrigatório (data, tipo, categoria, descrição, forma ou valor). Corrija na planilha.</td></tr>
+<tr><td>Valores esquisitos depois de converter a planilha</td><td>Restaure a cópia de segurança (Histórico de versões) e confira o formato das colunas.</td></tr>
+<tr><td>Dados fictícios aparecem</td><td>O app ainda não está conectado. Faça a seção 6. O botão “Restaurar dados fictícios” só aparece desconectado.</td></tr></table>
+</details>
+</div>
+</section>
 <section id="viewA" hidden>
   <div class="insights" id="insights"></div>
   <p class="nota">Os cards respeitam os filtros acima. Estouros = despesas Pagas no mês atual contra o mês anterior (só itens Pagos nos dois meses; ignora o filtro de Data). Crescimento = último mês fechado (todos os lançamentos Pagos) contra a média dos até 3 meses fechados anteriores.</p>
 </section>
 </div>
 </main>
-<div id="tabbar"><button data-t="P" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Painel</button><button data-t="D"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</button><button data-t="A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>Análises</button><button data-t="L"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lançamentos</button><button data-t="C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>Cadastros</button></div>
+<div id="tabbar"><button data-t="P" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Painel</button><button data-t="D"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</button><button data-t="A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>Análises</button><button data-t="L"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lançamentos</button><button data-t="C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>Cadastros</button><button data-t="M"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M9 8h6M9 12h6"/></svg>Manual</button></div>
 <div id="mbk"></div>
 
 <dialog id="dlgNovo">
@@ -800,12 +942,12 @@ function trocarAba(a){
   if(a!=='L')abaAnt=a;
   aba=a;F=a==='D'?FD:FP;if(a==='D'){animarGraf=true;if(!FD.init){FD.init=true;padraoD();}}
   $('#layout').classList.toggle('dash',a==='D');
-  ['P','L','C','D','A'].forEach(x=>$('#view'+x).hidden=x!==a);
-  $('#filtros').hidden=a==='C';$('#layout').classList.toggle('sem-filtros',a==='C');
+  ['P','L','C','D','A','M'].forEach(x=>$('#view'+x).hidden=x!==a);
+  $('#filtros').hidden=a==='C'||a==='M';$('#layout').classList.toggle('sem-filtros',a==='C'||a==='M');
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.aba===a));
   $('#btnLanc').classList.toggle('on',a==='L');
   document.querySelectorAll('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.t===a));fechaPaineis();fechaGaveta();
-  if(a==='C')renderCad();else renderTudo();
+  if(a==='C')renderCad();else if(a!=='M')renderTudo();
 }
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>trocarAba(b.dataset.aba));
 $('#btnLanc').onclick=()=>trocarAba(aba==='L'?abaAnt:'L');
