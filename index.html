@@ -88,7 +88,7 @@ dialog h3{margin:0 0 10px}
 .cad ul{padding:0;margin:8px 0}
 .cad li{display:flex;gap:6px;margin-bottom:4px;list-style:none;align-items:center}
 .cad li input{flex:1}
-.cad .tw{max-height:calc(100vh - 360px)}
+.cad .tw{max-height:calc(100vh - 290px)}
 .cad td{padding:2px 3px}
 .tag{font-size:11px;color:var(--muted);min-width:56px}
 .hint{font-size:12px;color:var(--muted)}
@@ -348,8 +348,8 @@ header .btn[hidden]{display:none}
 #dlgNovo select,#dlgNovo input{font-size:15px;min-height:38px}
 #dlgNovo .grid{gap:8px 14px}#dlgNovo .hint{font-size:13px}#dlgNovo .prev{font-size:14px;margin:8px 0}
 #dlgNovo .btn{font-size:14px;min-height:38px}
-header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700;letter-spacing:.04em;font-size:13px}
-@media(max-width:1699px){header nav button,header .btn:not(.ico){font-size:12px;letter-spacing:.02em}}
+header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700;letter-spacing:.04em;font-size:14px}
+@media(max-width:1699px){header nav button,header .btn:not(.ico){font-size:13px;letter-spacing:.02em}}
 /* Aba Manual */
 .man{max-width:920px;margin:0 auto;font-size:15px;line-height:1.55}
 .man h2{margin:4px 0 6px;font-size:22px}.man .mu{color:var(--muted);margin:0 0 14px}
@@ -365,13 +365,13 @@ header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700
 .man .mt th,.man .mt td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
 .man .mt th{background:var(--th-bg);color:var(--th-fg)}
 @media(max-width:768px){.man{font-size:15px}.man details>*:not(summary){margin-left:12px;margin-right:12px}.man .mt{display:block;overflow-x:auto}#tabbar button{font-size:9.5px}}
-#btnReset .rl2{display:none}@media(min-width:1900px){#btnReset .rl2{display:inline}}@media(max-width:1899px){header .btn .hi,nav .hi{display:none}header .btn,nav button{gap:0;font-size:12px;letter-spacing:.02em}}
+#btnReset .rl2{display:none}@media(min-width:1900px){#btnReset .rl2{display:inline}}@media(max-width:1899px){header .btn .hi,nav .hi{display:none}header .btn,nav button{gap:0;font-size:13px;letter-spacing:.02em}}@media(max-width:1599px){header .btn:not(.ico){padding-left:10px;padding-right:10px}header nav button{padding-left:11px;padding-right:11px}}
 /* ===== Celular / PWA ===== */
 #tabbar,#btnFiltros,#mbk,#btnFechaFiltros{display:none}
 @media(max-width:768px),(orientation:landscape) and (max-height:500px){
  body{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
  header{padding:8px 12px;gap:8px}
- header nav,#btnLanc,#btnReset{display:none}
+ header nav,#btnLanc,#btnReset,#btnMan{display:none}
  header h1{font-size:16px}.logo{width:32px;height:32px;border-radius:10px}
  header .badge{font-size:11px;padding:2px 8px;max-width:128px;overflow:hidden;text-overflow:ellipsis}
  #btnGoogle{font-size:0;width:38px;height:38px;padding:0;justify-content:center;border-radius:50%}
@@ -442,12 +442,12 @@ header nav button,header .btn:not(.ico){text-transform:uppercase;font-weight:700
     <button data-aba="D"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Dashboards</button>
     <button data-aba="A"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg>Análises</button>
     <button data-aba="C"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>Cadastros</button>
-    <button data-aba="M"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6M9 12h6"/></svg>Manual</button>
   </nav>
   <span class="sp"></span>
   <button class="btn" id="btnLanc"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lançamentos</button>
   <button class="btn" id="btnGoogle"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.6-7.9A6 6 0 0 1 18 9a4.5 4.5 0 0 1 .5 9z"/><path d="M12 12v6M9.5 15.5L12 18l2.5-2.5"/></svg>Google Sheets</button>
   <button class="btn" id="btnReset" title="Restaurar dados fictícios"><svg class="hi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span class="rl">Restaurar</span><span class="rl2"> dados fictícios</span></button>
+  <button class="btn ico" id="btnMan" title="Manual" aria-label="Manual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 8h6M9 12h6"/></svg></button>
   <button class="btn ico" id="btnTema" title="Alternar tema claro/escuro" aria-label="Alternar tema"></button>
 </header>
 <main id="layout">
@@ -945,11 +945,12 @@ function trocarAba(a){
   ['P','L','C','D','A','M'].forEach(x=>$('#view'+x).hidden=x!==a);
   $('#filtros').hidden=a==='C'||a==='M';$('#layout').classList.toggle('sem-filtros',a==='C'||a==='M');
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.aba===a));
-  $('#btnLanc').classList.toggle('on',a==='L');
+  $('#btnLanc').classList.toggle('on',a==='L');$('#btnMan').classList.toggle('on',a==='M');
   document.querySelectorAll('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.t===a));fechaPaineis();fechaGaveta();
   if(a==='C')renderCad();else if(a!=='M')renderTudo();
 }
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>trocarAba(b.dataset.aba));
+$('#btnMan').onclick=()=>trocarAba('M');
 $('#btnLanc').onclick=()=>trocarAba(aba==='L'?abaAnt:'L');
 function fitBox(){ // a tabela ocupa só o espaço que sobra na tela
   [['#twP','#viewP',$('#notaP').offsetHeight+20],['#tw','#viewL',$('#tot').offsetHeight]].forEach(([t,v,extra])=>{
@@ -1221,6 +1222,7 @@ bindMoney($('#loteVal'));bindMoney($('#nVal'));
 /* ---- cadastros ---- */
 const igual=(a,b)=>a.toLowerCase()===b.toLowerCase();
 function renderCad(){
+  DB.cad.sort((a,b)=>az(a.tipo,b.tipo)||az(a.categoria,b.categoria)||az(a.descricao,b.descricao));
   $('#tbCad').innerHTML=DB.cad.map((c,i)=>{const u=usoCad(c);return `<tr>
     <td class="tag">${c.tipo}</td>
     <td><input data-ccat="${i}" value="${esc(c.categoria)}"></td>
@@ -1496,7 +1498,7 @@ function blocosPainel(rows){
     return b;
   }).sort((a,b)=>a.ord-b.ord||a.tipo.localeCompare(b.tipo,'pt-BR')||a.categoria.localeCompare(b.categoria,'pt-BR')||a.descricao.localeCompare(b.descricao,'pt-BR')||a.forma.localeCompare(b.forma,'pt-BR'));
 }
-const PV_COLS=[['DIA',46],['TIPO',64],['CATEGORIA',108],['DESCRIÇÃO',180],['FORMA',124]];
+const PV_COLS=[['DIA',46],['TIPO',64],['CATEGORIA',140],['DESCRIÇÃO',180],['FORMA',124]];
 function renderPainel(){
   renderKpis();
   const ms=todosMeses().filter(m=>passa('meses',m)),bl=blocosPainel(filtradas());
